@@ -304,7 +304,7 @@ function Shell({ children }) {
           <div className="flex items-center gap-3">
             <a
               href="#/contact"
-              className="hidden rounded-full bg-[#312e81] px-4 py-2 text-sm text-white transition hover:translate-y-[-1px] md:inline-flex"
+              className="hidden rounded-full bg-[#5b3b8c] px-4 py-2 text-sm text-white transition hover:translate-y-[-1px] md:inline-flex"
             >
               Let’s Talk
             </a>
@@ -381,7 +381,7 @@ function Hero() {
           >
             <a
               href="#/case-studies"
-              className="inline-flex items-center gap-2 rounded-full bg-[#312e81] px-5 py-3 text-sm text-white transition hover:translate-y-[-1px]"
+              className="inline-flex items-center gap-2 rounded-full bg-[#5b3b8c] px-5 py-3 text-sm text-white transition hover:translate-y-[-1px]"
             >
               View Case Studies <ArrowRight className="h-4 w-4" />
             </a>
@@ -462,7 +462,7 @@ function FeaturedGrid() {
               <p className="mt-6 text-xs font-medium uppercase tracking-[0.22em] text-stone-500">{study.eyebrow}</p>
               <h3 className="mt-3 text-2xl font-semibold tracking-tight text-stone-950">{study.title}</h3>
               <p className="mt-4 text-sm leading-7 text-stone-700">{study.summary}</p>
-              <div className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-[#312e81]">
+              <div className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-[#5b3b8c]">
                 View project <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
               </div>
             </motion.a>
@@ -477,7 +477,7 @@ function AboutPreview() {
   return (
     <section className="mx-auto max-w-7xl px-5 py-16 md:px-8">
       <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="rounded-[2rem] border border-stone-200 bg-[#312e81] p-7 text-white">
+        <div className="rounded-[2rem] border border-stone-200 bg-[#5b3b8c] p-7 text-white">
           <SectionTag>What I do</SectionTag>
           <h2 className="mt-4 text-3xl font-semibold tracking-tight">Learning design with structure, curiosity, and impact.</h2>
         </div>
@@ -515,7 +515,7 @@ function ContactStrip() {
             <SectionTag>Contact</SectionTag>
             <h2 className="mt-4 text-3xl font-semibold tracking-tight">Let’s build learning experiences that work in real-world environments.</h2>
           </div>
-          <a href="#/contact" className="inline-flex items-center gap-2 rounded-full bg-[#312e81] px-5 py-3 text-sm text-white">
+          <a href="#/contact" className="inline-flex items-center gap-2 rounded-full bg-[#5b3b8c] px-5 py-3 text-sm text-white">
             Contact Me <ArrowRight className="h-4 w-4" />
           </a>
         </div>
@@ -562,7 +562,7 @@ function AboutPage() {
         </div>
 
         <div className="space-y-6">
-          <div className="rounded-[2rem] border border-stone-200 bg-[#312e81] p-7 text-white">
+          <div className="rounded-[2rem] border border-stone-200 bg-[#5b3b8c] p-7 text-white">
             <h2 className="text-xl font-semibold">Core focus areas</h2>
             <div className="mt-5 grid gap-3">
               {[
@@ -648,7 +648,7 @@ function BulletList({ items }) {
 function StudyLayout({ study, children }) {
   return (
     <section className="mx-auto max-w-7xl px-5 py-10 md:px-8 md:py-16">
-      <a href="#/case-studies" className="inline-flex items-center gap-2 text-sm text-[#312e81]">
+      <a href="#/case-studies" className="inline-flex items-center gap-2 text-sm text-[#5b3b8c]">
         <ChevronLeft className="h-4 w-4" /> Back to case studies
       </a>
 
@@ -694,7 +694,7 @@ function AILiteracyPage({ study }) {
         </Card>
       </div>
 
-      <div className="mt-6 rounded-[2rem] border border-stone-200 bg-[#312e81] p-7 text-white md:p-8">
+      <div className="mt-6 rounded-[2rem] border border-stone-200 bg-[#5b3b8c] p-7 text-white md:p-8">
         <h2 className="text-2xl font-semibold tracking-tight">Role and contribution</h2>
         <div className="mt-5 grid gap-3 md:grid-cols-2">
           {study.contribution.map((item) => (
@@ -869,7 +869,7 @@ function ContactPage() {
           </div>
         </div>
 
-        <div className="rounded-[2rem] border border-stone-200 bg-[#312e81] p-7 text-white">
+        <div className="rounded-[2rem] border border-stone-200 bg-[#5b3b8c] p-7 text-white">
           <h2 className="text-2xl font-semibold tracking-tight">Best fit for</h2>
           <div className="mt-6 grid gap-3">
             {[
