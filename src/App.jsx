@@ -850,10 +850,13 @@ function ContactPage() {
         <div className="rounded-[2rem] border border-stone-200 bg-white p-7 shadow-sm">
           <h2 className="text-2xl font-semibold tracking-tight">Get in touch</h2>
           <div className="mt-6 space-y-4 text-sm text-stone-800">
-            <a href="mailto:ololadetoluwalase@gmail.com" className="flex items-center gap-3 rounded-2xl bg-stone-50 p-4">
-              <Mail className="h-5 w-5" />
-              <span>ololadetoluwalase@email.com</span>
-            </a>
+            <a 
+  href="mailto:ololadetoluwalase@gmail.com" 
+  className="flex items-center gap-3 rounded-2xl bg-stone-50 p-4 hover:bg-stone-100 transition"
+>
+  <Mail className="h-5 w-5" />
+  <span>Send me an email</span>
+</a>
             <a href="https://www.linkedin.com/in/ololade-abiodun-191623276/" target="_blank" rel="noreferrer" className="flex items-center gap-3 rounded-2xl bg-stone-50 p-4">
               <span className="flex h-5 w-5 items-center justify-center text-stone-800">
                 <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
