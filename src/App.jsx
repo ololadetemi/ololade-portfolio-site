@@ -1,935 +1,430 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  ArrowRight,
-  BookOpen,
-  Brain,
-  ChevronLeft,
-  ExternalLink,
-  GraduationCap,
-  Layers,
-  Mail,
-  Menu,
-  ShieldCheck,
-  Sparkles,
-  Workflow,
-  X,
+  ArrowRight, BookOpen, Brain, ChevronLeft,
+  Download, ExternalLink, Layers, Mail, Menu,
+  Sparkles, Workflow, X,
 } from "lucide-react";
 
-const NAV_ITEMS = [
-  { label: "Home", hash: "#/" },
-  { label: "About", hash: "#/about" },
-  { label: "Case Studies", hash: "#/case-studies" },
-  { label: "Contact", hash: "#/contact" },
+const S = {
+  accent:"var(--accent)",accentLight:"var(--accent-light)",accentMid:"var(--accent-mid)",
+  terra:"var(--terra)",terraDark:"var(--terra-dark)",terraLight:"var(--terra-light)",
+  terraBorder:"var(--terra-border)",paper:"var(--paper)",border:"var(--border)",
+  ink:"var(--ink)",ink2:"var(--ink-2)",ink3:"var(--ink-3)",white:"#ffffff",
+  serif:"var(--serif)",sans:"var(--sans)",
+};
+
+const NAV_ITEMS=[
+  {label:"Home",hash:"#/"},{label:"About",hash:"#/about"},
+  {label:"Case Studies",hash:"#/case-studies"},{label:"Contact",hash:"#/contact"},
 ];
 
-const caseStudies = [
-  {
-    slug: "ai-literacy",
-    title: "AI Literacy Program",
-    eyebrow: "Featured Case Study",
-    summary:
-      "Designing age-appropriate, ethical, and practical AI education for learners ages 8–30.",
-    icon: Brain,
-    heroNote:
-      "A learner-centered AI literacy program structured for two distinct age bands, with ethics and application built into the design from the design start.",
-    challenge:
-      "Young people increasingly use AI tools without clear guidance on how AI works, when to trust it, or how to use it responsibly. Existing learning is often either too technical or too shallow.",
-    objectives: [
-      "Build foundational AI understanding",
-      "Foster responsible, ethical AI engagement",
-      "Promote confident decision-making with AI",
-      "Support academic and career-related AI use",
-      "Prepare learners for academic, vocational, and professional pathways",
-    ],
-    approach: [
-      "Modular curriculum design",
-      "Scaffolded learning from simple concepts to application",
-      "Active learning over passive consumption",
-      "AI as a copilot, not an autopilot",
-      "Backward design with formative assessment and reflection",
-    ],
-    metrics: [
-      "Pre- and post-learning knowledge checks",
-      "Scenario-based assessments",
-      "Learner reflections on ethical decision-making",
-      "Participation and engagement tracking",
-    ],
-    contribution: [
-      "Conducted learner and needs analysis",
-      "Designed modular curricula for two age groups",
-      "Developed assessment and evaluation frameworks",
-      "Integrated AI tools to support rather than replace learning",
-      "Ensured ethical alignment and accessibility",
-    ],
-    subStudies: [
-      {
-        title: "Foundations and Awareness",
-        audience: "Ages 8–17",
-        description:
-          "Introduces AI through stories, visuals, everyday examples, and guided activities.",
-        topics: [
-          "What is AI? explained through stories and examples",
-          "Everyday AI in games, YouTube, and voice assistants",
-          "How AI learns through basic pattern recognition",
-          "Right and wrong uses of AI",
-          "Staying safe online with AI tools",
-        ],
-        activities: [
-          "AI storytelling sessions",
-          "Image and text recognition games",
-          "Group discussions using real-life examples",
-          "Short quizzes and creative tasks",
-        ],
-        assessment: ["Simple quizzes", "Group presentations", "Reflection prompts"],
-      },
-      {
-        title: "Application and Responsible Use",
-        audience: "Ages 18–30",
-        description:
-          "Focuses on practical use, prompting basics, ethics, and real-world AI-supported decision-making.",
-        topics: [
-          "AI fundamentals and real-world applications",
-          "Prompting basics and tool limitations",
-          "AI ethics, bias, and data privacy",
-          "AI in work, learning, and entrepreneurship",
-          "Avoiding over-reliance and misuse",
-        ],
-        activities: [
-          "Guided prompt design exercises",
-          "Case-based discussions",
-          "Practical use scenarios for learning and productivity",
-          "Mini capstone project",
-        ],
-        assessment: [
-          "Scenario-based assignments",
-          "Short reflective essays",
-          "Practical AI-use demonstrations",
-        ],
-      },
-    ],
-  },
-  {
-    slug: "software-development",
-    title: "Software Development for the Learner Today",
-    eyebrow: "Technical Curriculum Design",
-    summary:
-      "Designing a curriculum that builds strong foundations in today’s tool-rich learning environment.",
-    icon: Workflow,
-    heroNote:
-      "A software development curriculum that prioritizes reasoning, debugging, and independent problem-solving before tool dependence.",
-    challenge:
-      "Many beginner and early-career developers rely on tools and tutorials without developing a strong understanding of how software works, making debugging and transfer difficult.",
-    learners: [
-      "Beginner developers with basic exposure to programming concepts",
-      "Early-career developers seeking stronger foundational skills",
-      "Learners transitioning from guided tutorials to independent problem-solving",
-    ],
-    goals: [
-      "Understand core software development concepts and workflows",
-      "Approach problems methodically before reaching for tools",
-      "Evaluate tool-generated suggestions critically",
-      "Build small, functional projects with confidence and clarity",
-    ],
-    modules: [
-      {
-        title: "Module 1: Foundations of Software Development",
-        body:
-          "Introduces core programming concepts, logical thinking, and debugging fundamentals, with emphasis on understanding how code works rather than memorizing syntax.",
-        assessment: "Code reading exercises and basic problem-solving tasks.",
-      },
-      {
-        title: "Module 2: Working in a Tool-Rich Environment",
-        body:
-          "Explores how development tools fit into the software development process and how learners can use them as learning aids rather than shortcuts.",
-        assessment: "Reflection-based activities and prompt evaluation tasks.",
-      },
-      {
-        title: "Module 3: Debugging and Improving Code",
-        body:
-          "Focuses on identifying issues in existing code, comparing solution approaches, and refining code for clarity and maintainability.",
-        assessment: "Guided debugging tasks with written explanations of decisions made.",
-      },
-      {
-        title: "Module 4: Building with Support, Thinking Independently",
-        body:
-          "Learners apply their knowledge to small projects while maintaining ownership of design and logic decisions.",
-        assessment: "Mini-project submission with a reflection on problem-solving approach.",
-      },
-      {
-        title: "Module 5: Transitioning to Independent Practice",
-        body:
-          "Supports reduced reliance on external help and builds confidence for real-world development environments.",
-        assessment: "Final project and reflective summary.",
-      },
-    ],
-    designApproach: [
-      "Progressive scaffolding from foundational concepts to applied practice",
-      "Reflection-based assessments to encourage critical thinking",
-      "Realistic development scenarios to simulate real-world challenges",
-      "A learner-centered approach that prioritizes understanding over speed",
-    ],
-    deliverables: [
-      "Curriculum outline and module breakdown",
-      "Assessment framework",
-      "Learner progression map",
-      "Optional storyboard for selected modules",
-    ],
-  },
-  {
-    slug: "devops-bootcamp",
-    title: "Curriculum Framework and Facilitator Enablement",
-    eyebrow: "Instructor-Led Technical Learning",
-    summary:
-      "Designing a 12-week DevOps bootcamp and facilitator framework for consistent, high-quality instructor-led delivery.",
-    icon: Layers,
-    heroNote:
-      "A curriculum and enablement model built to help facilitators deliver rigorous technical learning with greater consistency across cohorts.",
-    problem:
-      "Organizations often scale DevOps training quickly, but facilitators are left to interpret loosely defined curricula, leading to inconsistent learner outcomes.",
-    overview:
-      "This 12-week, instructor-led DevOps bootcamp supports early-career engineers moving from foundational understanding to intermediate-level practice through daily guided learning, hands-on work, and weekly assessments.",
-    roleFocus: [
-      "Structuring learning progression across foundational, applied, and integrative phases",
-      "Defining weekly learning outcomes and assessment intent",
-      "Designing practical, scenario-based assessments",
-      "Embedding guidance for responsible tool and AI usage",
-    ],
-    rationale: [
-      "Introduces core concepts before tools so learners understand system behavior, trade-offs, and failure patterns",
-      "Positions AI-enabled DevOps tools as productivity accelerators rather than replacements for engineering judgment",
-      "Uses weekly applied assessments to reinforce transfer into live environments",
-    ],
-    phases: [
-      {
-        title: "Foundations (Weeks 1–3)",
-        body:
-          "DevOps mindset, version control, and systems fundamentals to establish shared mental models and technical context.",
-      },
-      {
-        title: "Cloud & Automation Core (Weeks 4–6)",
-        body:
-          "Cloud-agnostic infrastructure concepts, Infrastructure as Code, and CI/CD pipelines to introduce reproducibility and automation.",
-      },
-      {
-        title: "Containerization & Orchestration (Weeks 7–8)",
-        body:
-          "Docker and Kubernetes concepts to support deployment, scaling, and system-level thinking.",
-      },
-      {
-        title: "Reliability & Tool-Aware Practice (Weeks 9–10)",
-        body:
-          "Observability, incident response, and AI-assisted DevOps workflows with emphasis on judgment and validation.",
-      },
-      {
-        title: "Secure & Scalable Systems (Weeks 11–12)",
-        body:
-          "DevSecOps principles, cost awareness, and a capstone project integrating end-to-end DevOps workflows.",
-      },
-    ],
-    assessmentStrategy: [
-      "Applied understanding",
-      "Decision-making and reasoning",
-      "Practical problem-solving",
-      "Reflection and learning transfer",
-    ],
-    sampleAssessment: {
-      title: "Week 6: CI/CD Pipeline Design & Failure Analysis",
-      scenario:
-        "Learners review a simplified CI/CD pipeline, deployment issues, logs, and error outputs to identify failures, explain underlying causes, and propose a more reliable flow.",
-      tasks: [
-        "Identify the failure point",
-        "Explain the underlying cause",
-        "Propose an improved pipeline flow",
-        "Optionally use AI-assisted suggestions and critically evaluate which recommendations to accept or reject",
-      ],
-      focus: [
-        "Reason through system behavior rather than rely on presets",
-        "Communicate technical decisions clearly",
-        "Apply foundational DevOps principles to a real scenario",
-        "Use AI tools thoughtfully, not blindly",
-      ],
-    },
-  },
+const caseStudies=[
+  {slug:"ai-literacy",title:"AI Literacy & Digital Skills Curriculum",eyebrow:"Featured Case Study",
+    summary:"Designed a 4-day facilitator-led orientation program for 5,000+ beginner learners — covering AI, product management, software development, data analysis, and cybersecurity. Every session scripted for consistent delivery at scale.",
+    icon:Brain,color:"navy",tag:"AI Literacy · Digital Skills · Women Techsters Launchpad",
+    heroNote:"A 4-day facilitator-led orientation program designed to bring thousands of beginner learners — most with zero prior digital experience — into the world of technology for the first time.",
+    challenge:"A large-scale women-in-tech initiative needed a cohesive orientation curriculum for participants with no prior exposure to digital tools or AI. The existing content was fragmented, inconsistently delivered across facilitators, and lacked a clear learning arc that could hold up across multiple cohorts.",
+    stats:[{num:"5,000+",label:"Learners reached"},{num:"4 days",label:"Program duration"},{num:"5 tracks",label:"Tech career paths"},{num:"83%",label:"Program impact rate"}],
+    objectives:["Build foundational understanding of digital technology and AI","Foster responsible, ethical engagement with AI tools","Introduce five tech career pathways and help learners self-identify a fit","Develop learner confidence through hands-on AI tool practice","Equip facilitators with scripted, consistent delivery resources"],
+    approach:["ADDIE-informed design: analysis → objectives → content → assessment → evaluation","Bloom's Taxonomy alignment — each session moved from Remembering → Understanding → Applying","Scaffolded 4-day arc: digital literacy → product thinking → software dev → data & security","Active learning: every session included at least two structured activities","Contextualised content: examples drawn from learners' everyday Nigerian digital lives"],
+    metrics:["Baseline and end-line survey instruments measuring knowledge and confidence gains","In-session trivia and comprehension checks per session","Career reflection activities tracking learner pathway interest","Program-level impact rate measured at 83% across cohorts","Facilitator feedback collected post-delivery for iteration"],
+    contribution:["Conducted learner and needs analysis for the full program","Designed complete 4-day facilitator guide with scripted speaker notes","Built accompanying PowerPoint deck with session-by-session delivery structure","Developed all in-session activities, icebreakers, quizzes, and reflection prompts","Designed daily learner challenges and career pathway frameworks"],
+    subStudies:[
+      {title:"Day 1 — Inside the Digital World",audience:"AI Literacy & Generative AI",
+        description:"Introduces learners to digital technology, how AI works in everyday life, and gives them hands-on practice with a generative AI tool — many for the first time.",
+        topics:["What is digital technology and how does it work?","Devices, internet, and applications — the core infrastructure","Types of AI: recommendation, recognition, predictive, and generative","Strengths and limitations of AI — why human judgment still matters","Women in the digital economy: careers and opportunities in tech"],
+        activities:["Icebreaker: mapping technology in learners' daily routines","Match-tech-to-use-case activity (AI, IoT, AR/VR, Blockchain)","Live AI demonstration: using Claude to ask questions, summarise, and explain","Real-world case: when AI goes wrong — video analysis and group discussion","Career reflection: identifying 1–2 tech roles of interest"],
+        assessment:["5-question trivia quiz on digital literacy and AI concepts","Daily challenge: create an account on an AI tool and try three prompts","Career reflection prompt: 'I'm interested in ___ because ___'"]},
+      {title:"Days 2–4 — Product, Code, Data & Security",audience:"Technical Tracks",
+        description:"Builds on Day 1 with sessions on product thinking, software development fundamentals, data analysis, and cybersecurity — each grounded in real tools and live demonstrations.",
+        topics:["Day 2: How digital products are planned — product vs. project management, PRDs, UX vs. UI","Day 3: How software products are built — frontend vs. backend, HTML/CSS, GitHub, web hosting","Day 4: Understanding data — data types, data analyst roles, structured vs. unstructured data","Day 4: Protecting systems — phishing, malware, ransomware, and digital safety habits","AI integration across all days: Claude, Canva AI, and GitHub Copilot used as learning tools"],
+        activities:["Day 2: Use Canva AI to generate an app idea; create a PRD using Claude AI","Day 3: Live coding demo in CodePen/Replit; AI-assisted code generation activity","Day 3: Host a live webpage using GitHub Pages","Day 4: Google Sheets data sorting and trend-spotting activity","Day 4: Google phishing quiz — interactive cybersecurity simulation"],
+        assessment:["Daily challenge tasks tied to each session's hands-on activity","Group discussions and chat-based participation across all sessions","Final Q&A and open reflection at end of each day"]},
+    ]},
+  {slug:"career-impact",title:"Career Pathway Quiz & Program Impact Framework",eyebrow:"Monitoring, Evaluation & Learner Experience Design",
+    summary:"Built a learner-facing career discovery quiz and a full M&E system — baseline surveys, end-line instruments, and the programme's first quantitative impact report. Contributed to an 83% success rate.",
+    icon:Workflow,color:"terra",tag:"Monitoring & Evaluation · Career Design · Women Techsters Bootcamp",
+    heroNote:"A dual project combining learner-facing career design with rigorous program measurement — giving both participants and the organisation what they needed: direction and evidence.",
+    challenge:"A scaling tech education programme for women lacked two critical things: a structured way for learners to identify the right tech career path, and a rigorous mechanism to measure whether the programme was producing real change. Anecdotal success stories were not enough — the organisation needed data.",
+    stats:[{num:"83%",label:"Program impact rate"},{num:"2",label:"Survey instruments"},{num:"5+",label:"Career tracks mapped"},{num:"Live",label:"Quiz platform deployed"}],
+    objectives:["Help learners identify a suitable tech career track before program start","Design a quiz instrument accessible to complete beginners","Create matched baseline and end-line survey instruments for pre/post measurement","Produce a quantitative impact report for stakeholder and funder communication","Embed a repeatable M&E process that could scale across cohorts"],
+    approach:["Career track competency mapping — interest signals and aptitude indicators per track","Branching quiz logic design — routing learners to personalised recommendations","Pre/post measurement model with matched question wording across instruments","Balanced instrument design capturing both knowledge gains and affective outcomes","Data analysis feeding into a program-level impact report"],
+    metrics:["83% measured program impact success rate across cohorts","Career quiz deployed as a permanent feature of program onboarding","Two validated survey instruments (baseline and end-line) operational","First quantitative impact report produced for stakeholder communication","Five tech career tracks mapped with structured pathway recommendations"],
+    contribution:["Mapped competencies and interest signals to five distinct tech career pathways","Designed branching quiz logic producing actionable, personalised outputs","Developed baseline survey instrument capturing entry-point knowledge and confidence","Developed end-line survey with matched wording for direct pre/post comparison","Produced the programme's first quantitative impact report for stakeholder communication"],
+    subStudies:[
+      {title:"Career Pathway Quiz",audience:"Beginner tech learners at program entry",
+        description:"A learner-facing quiz routing participants to one of five tech career tracks — designed to be accessible without any prior tech knowledge.",
+        topics:["Career track mapping: Design, Development, Data, Product, and Cybersecurity","Interest-based question framing — everyday scenarios, not technical jargon","Branching logic design for differentiated output","Actionable recommendations tied directly to available programme tracks","Accessible language and UX for first-time digital learners"],
+        activities:["Quiz piloting with sample learner groups before deployment","Facilitator briefing on how to debrief quiz results with learners","Integration into programme onboarding flow"],
+        assessment:["Track recommendation accuracy reviewed against learner-reported satisfaction","Post-quiz reflection: 'Does this feel right for me?'","Facilitator observation of learner engagement with recommendations"]},
+      {title:"M&E Framework & Impact Measurement",audience:"Programme team and organisational stakeholders",
+        description:"A structured M&E system using matched pre/post instruments to measure learner knowledge gains, confidence shifts, and career intention — producing the organisation's first data-backed impact report.",
+        topics:["Baseline survey design: entry-point knowledge, confidence, and career aspirations","End-line survey design: matched questions for direct pre/post comparison","Affective outcome measurement: belonging in tech, confidence, and intention","Standardised response scales to reduce measurement error across cohorts","Data analysis and visualisation for stakeholder reporting"],
+        activities:["Survey instrument drafting, review, and piloting","LMS administration for survey distribution and collection","Data cleaning, analysis, and synthesis into programme impact narrative"],
+        assessment:["83% programme impact rate validated across cohorts","Instrument reliability reviewed across multiple cohort deployments","Report reviewed and approved for external stakeholder communication"]},
+    ]},
+  {slug:"technical-curriculum",title:"Cloud & Web Development Curriculum Design",eyebrow:"Technical Curriculum & Instructor-Led Training",
+    summary:"Designed and delivered beginner-to-intermediate curricula for AWS cloud fundamentals and frontend web development — built around hands-on labs, project-based learning, and full LMS setup.",
+    icon:Layers,color:"slate",tag:"Cloud Computing · Web Development · Instructor-led Training",
+    heroNote:"Two technical curricula built from scratch and delivered live — one for AWS cloud fundamentals, one for frontend web development — both designed to make dense technical content genuinely accessible to beginners without losing rigour.",
+    challenge:"Two organisations needed structured technical curricula for subjects learners typically find intimidating. In both cases: make technically dense content accessible to beginners without oversimplifying it, and design for applied skill — not just content recall.",
+    stats:[{num:"2",label:"Full curricula built"},{num:"AWS",label:"Certification-aligned"},{num:"HTML/CSS/JS",label:"Web dev curriculum"},{num:"LMS",label:"Fully configured"}],
+    objectives:["Build foundational understanding of AWS cloud services and architecture","Develop working knowledge of HTML, CSS, and JavaScript","Prioritise applied skill over passive content consumption","Create LMS infrastructure for content delivery and progress tracking","Develop learner confidence through hands-on, project-based tasks"],
+    approach:["Learner analysis at project start — defining audience starting knowledge and constraints","Project-based learning model: learners built a single running project that grew in complexity","Lab-first AWS design: every conceptual module paired with a hands-on AWS Console activity","Formative-heavy assessment: frequent low-stakes quizzes to surface misconceptions early","Real-time feedback loop: live virtual delivery enabled immediate curriculum refinement"],
+    metrics:["Learners progressed from zero to deployable web pages (Pediforte cohort)","AWS curriculum aligned to Solutions Architect Associate certification path","LMS fully configured with quizzes, assignments, and progress tracking","Learner portfolios produced from project-based work — increasing employability outcomes","Curriculum iterated between cohorts based on in-session facilitator observation"],
+    contribution:["Designed AWS curriculum from foundational cloud concepts through to solutions architecture","Built and delivered the full HTML, CSS, and JavaScript curriculum end-to-end","Configured Google Classroom LMS with assignments, quizzes, and rubrics","Delivered live virtual classes with real-time troubleshooting and personalised feedback","Developed hands-on coding projects and graded assessment rubrics"],
+    subStudies:[
+      {title:"AWS Cloud Fundamentals Curriculum",audience:"Beginner to intermediate learners — cloud computing",
+        description:"A structured curriculum covering foundational AWS concepts through to solutions architecture — every conceptual module anchored by a hands-on AWS Console activity.",
+        topics:["Cloud computing fundamentals: what the cloud is and why it matters","Core AWS services: compute (EC2), storage (S3), networking (VPC)","Identity and access management (IAM) — security foundations","Solutions architecture principles: scalability, reliability, cost optimisation","Exam preparation aligned to the AWS Solutions Architect Associate path"],
+        activities:["AWS Console lab: launch and configure an EC2 instance","Storage activity: create and manage an S3 bucket","Architecture challenge: design a simple cost-effective infrastructure for a given scenario","Group case study: review a cloud architecture and identify failure risks"],
+        assessment:["End-of-module quizzes tied to AWS exam-style questions","Lab submission: screenshot evidence of completed console tasks","Architecture design task with written justification of decisions made"]},
+      {title:"Frontend Web Development Curriculum",audience:"Beginner learners — HTML, CSS, JavaScript",
+        description:"A project-based curriculum where learners built a single web page from scratch across the programme — producing a shareable, deployed portfolio artefact at the end.",
+        topics:["HTML: document structure, semantic elements, and accessibility basics","CSS: layout, typography, colour, flexbox, and responsive design","JavaScript: variables, functions, DOM manipulation, and event handling","Version control fundamentals: using Git and GitHub","Deployment: publishing a working webpage to the open web"],
+        activities:["Build Week 1: HTML skeleton of a personal portfolio page","Build Week 2: Style the page with CSS including responsive layout","Build Week 3: Add JavaScript interactivity","Final submission: deployed, shareable portfolio webpage"],
+        assessment:["Weekly code review with written facilitator feedback","Peer review activity: evaluate a classmate's layout and suggest one improvement","Final project: deployed webpage assessed against a published rubric"]},
+    ]},
+  {slug:"civil-servant-ai",title:"Digitalise Nigeria: Civil Servant AI & Digital Literacy Programme",eyebrow:"Curriculum Design · Facilitator Enablement · Government Sector",
+    summary:"Designed a 2-day facilitator-led AI and digital literacy programme for non-technical civil servants — covering digital workplace navigation, online safety, and responsible AI use in a public sector context.",
+    icon:BookOpen,color:"slate",tag:"Curriculum Design · Facilitator Enablement · Government Sector",
+    heroNote:"A programme built for a learner nobody usually designs for: the experienced civil servant who is deeply competent in their role but has never had structured support to engage confidently with digital tools. The brief was not to produce technologists — it was to produce capable, safe, accountable digital workers.",
+    challenge:"Nigeria's civil service is undergoing rapid digital transformation, but formal digital skills support for non-technical officers has not kept pace. Many civil servants navigate government platforms, handle sensitive data, and are now expected to engage with AI tools — without ever receiving training for any of it.",
+    stats:[{num:"2 days",label:"Program duration"},{num:"6+",label:"Activities per day"},{num:"3",label:"Evaluation touchpoints"},{num:"Gov't",label:"Sector context"}],
+    objectives:["Build foundational confidence with digital tools in a government workplace context","Establish safe, practical digital habits specific to civil service work and data","Develop grounded AI literacy — understanding what AI is, where it appears in government, and how to use it responsibly","Equip facilitators to deliver consistently across ministries without requiring technical expertise","Produce a measurable shift in learner confidence and declared intention to apply new skills"],
+    approach:["Context-first design: all examples drawn from the Nigerian civil service environment — not generic corporate contexts","ADDIE-informed structure with confidence-before-complexity sequencing: digital foundations (Day 1) before AI literacy (Day 2)","Active learning throughout: no segment runs longer than 15 minutes without learner interaction","Facilitator-proofing: every session scripted with full delivery notes, expected responses, and common misconception flags","Responsible use framing: AI positioned as a tool that requires human judgment and accountability"],
+    metrics:["2-day programme with 6+ embedded formative assessments per day","3-touchpoint evaluation model: immediate reaction, 30-day follow-up, optional manager observation","Facilitator guide validated for delivery by non-technical facilitators across ministry contexts","Programme designed to accommodate virtual, low-connectivity, and mixed-seniority adaptations","Action plan commitment with peer-accountability mechanism embedded in Day 2 close"],
+    contribution:["Conducted learner and context analysis for the Nigerian civil service environment","Designed the full 2-day programme arc, session structure, and learning objectives","Wrote the complete facilitator guide with scripted delivery notes and facilitation tips","Designed all 8 learner activities including card sorts, platform navigation, phishing identification, and AI verification practice","Developed the 3-touchpoint evaluation framework and all assessment instruments"],
+    subStudies:[
+      {title:"Module 1 — Digital Foundations",audience:"Day 1 · All civil servants · Non-technical",
+        description:"Builds the digital confidence and practical habits civil servants need to navigate government platforms, communicate professionally, and stay safe online — before any AI content is introduced.",
+        topics:["The Nigerian government's digital shift: IPPIS, GIFMIS, NEMIS, and what digital transformation means for civil servant roles","The digital workplace framework: Device → Internet → Platform → You — a troubleshooting mental model","Hands-on government platform navigation: log in, locate, download, save","Digital safety for the civil service: phishing identification, password hygiene, work data policies","Professional digital communication: email structure and document naming conventions"],
+        activities:["My Digital Day icebreaker: participants map existing technology use","Platform navigation task: guided step-by-step navigation of a government portal","Spot the Phish card activity: participants identify phishing indicators in three example messages","Email drafting with peer review: write a professional government email","File naming workshop: rename badly-named files using a standard government convention"],
+        assessment:["Opening word-check (emotional baseline and psychological safety)","Platform navigation observation (facilitator notes common errors for immediate correction)","Spot the Phish card debrief (surfaces misconceptions about digital safety)","Closing word-check (measures emotional shift before Day 2)"]},
+      {title:"Module 2 — AI Literacy for Civil Servants",audience:"Day 2 · All civil servants · Non-technical",
+        description:"Develops grounded, practical AI literacy — what AI actually is, where it appears in Nigerian government, how to use an AI tool for work tasks, and how to verify AI output before acting on it officially.",
+        topics:["AI demystified: pattern recognition, training data, and why AI is confident but not always correct","AI in Nigerian government: NIN biometric matching, FIRS tax tools, Microsoft 365 AI features","Policy and accountability: what civil servants remain responsible for regardless of AI involvement","Responsible prompting: how to ask an AI tool to draft, summarise, and research","The verification habit: the SIFT framework adapted for government use"],
+        activities:["AI Myths & Reality card sort: 12 statements sorted into MYTH/REALITY — debrief addresses job anxiety","Live AI demonstration: facilitator models prompting and critical evaluation before learners try","Three guided AI tasks: drafting a memo, summarising a policy extract, researching a government topic","Verification practice: three AI-generated paragraphs with embedded errors — participants identify errors","Action plan commitment card with peer-accountability mechanism"],
+        assessment:["AI Myths card sort (surfaces beliefs and misconceptions before instruction)","Guided AI practice observation (facilitator observes tool use and verification behaviour)","Verification practice sheet (direct assessment of ability to identify AI errors)","Programme close sentence stem: 'Before this programme I thought ___, and now I think ___'"]},
+    ]},
 ];
 
-function getHash() {
-  return window.location.hash || "#/";
-}
-
-function useHashRoute() {
-  const [hash, setHash] = useState(getHash());
-
-  useEffect(() => {
-    const onHashChange = () => setHash(getHash());
-    window.addEventListener("hashchange", onHashChange);
-    return () => window.removeEventListener("hashchange", onHashChange);
-  }, []);
-
+function getHash(){return window.location.hash||"#/";}
+function useHashRoute(){
+  const[hash,setHash]=useState(getHash());
+  useEffect(()=>{const f=()=>setHash(getHash());window.addEventListener("hashchange",f);return()=>window.removeEventListener("hashchange",f);},[]);
   return hash;
 }
 
-function SectionTag({ children }) {
-  return (
-    <div className="inline-flex items-center gap-2 rounded-full border border-stone-300 bg-white/70 px-4 py-2 text-xs font-medium uppercase tracking-[0.24em] text-stone-600 backdrop-blur">
-      <Sparkles className="h-3.5 w-3.5" />
-      {children}
-    </div>
-  );
+function SectionTag({children,light=false}){
+  return(<div style={{display:"inline-flex",alignItems:"center",gap:".4rem",background:light?"rgba(255,255,255,.15)":S.white,border:`1px solid ${light?"rgba(255,255,255,.3)":S.border}`,borderRadius:"999px",padding:".3rem .9rem",fontSize:".72rem",fontWeight:600,letterSpacing:".1em",textTransform:"uppercase",color:light?"rgba(255,255,255,.85)":S.ink3}}><Sparkles size={12}/>{children}</div>);
 }
 
-function Shell({ children }) {
-  const [mobileOpen, setMobileOpen] = useState(false);
+function BulletItem({text}){
+  return(<div style={{background:"#F8F9FB",borderRadius:10,padding:".7rem 1rem",fontSize:".875rem",color:S.ink2,lineHeight:1.65,marginBottom:".45rem"}}>{text}</div>);
+}
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-[#eef2ff] via-[#f5f3ff] to-[#e0f2fe] text-stone-900">
-      <div className="fixed inset-x-0 top-0 z-50 border-b border-stone-200/70 bg-gradient-to-br from-[#eef2ff]/90 via-[#f5f3ff]/90 to-[#e0f2fe]/90 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 md:px-8">
-          <a href="#/" className="text-sm font-semibold tracking-[0.18em] text-stone-900 uppercase">
-            Ololade Abiodun
-          </a>
+function Card({children,style={}}){
+  return(<div style={{background:S.white,border:`1px solid ${S.border}`,borderRadius:20,padding:"1.75rem",boxShadow:"0 4px 24px rgba(27,58,107,.05)",...style}}>{children}</div>);
+}
 
-          <nav className="hidden items-center gap-6 md:flex">
-            {NAV_ITEMS.map((item) => (
-              <a
-                key={item.label}
-                href={item.hash}
-                className="text-sm text-stone-700 transition hover:text-stone-950"
-              >
-                {item.label}
-              </a>
-            ))}
-          </nav>
+function AccentCard({children,style={}}){
+  return(<div style={{background:S.accent,borderRadius:20,padding:"1.75rem",color:S.white,...style}}>{children}</div>);
+}
 
-          <div className="flex items-center gap-3">
-            <a
-              href="#/contact"
-              className="hidden rounded-full bg-[#5b3b8c] px-4 py-2 text-sm text-white transition hover:translate-y-[-1px] md:inline-flex"
-            >
-              Let’s Talk
-            </a>
-            <button
-              className="inline-flex rounded-full border border-stone-300 p-2 md:hidden"
-              onClick={() => setMobileOpen((v) => !v)}
-              aria-label="Toggle menu"
-            >
-              {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+const thumbBg={navy:"var(--accent)",terra:"var(--terra-dark)",slate:"#2D2D2D"};
+
+function Shell({children}){
+  const[open,setOpen]=useState(false);
+  return(
+    <div style={{minHeight:"100vh",background:S.paper}}>
+      <nav style={{position:"sticky",top:0,zIndex:100,background:"rgba(250,250,247,.94)",backdropFilter:"blur(12px)",borderBottom:`1px solid ${S.border}`,padding:"0 2rem"}}>
+        <div style={{maxWidth:1100,margin:"0 auto",display:"flex",alignItems:"center",justifyContent:"space-between",height:64}}>
+          <a href="#/" style={{fontFamily:S.serif,fontSize:"1.1rem",color:S.accent,textDecoration:"none"}}>Ololade Abiodun</a>
+          <ul style={{display:"flex",gap:"2rem",listStyle:"none",margin:0,padding:0}} className="hidden md:flex">
+            {NAV_ITEMS.map(n=><li key={n.label}><a href={n.hash} style={{fontSize:".875rem",fontWeight:500,color:S.ink2,textDecoration:"none"}}>{n.label}</a></li>)}
+          </ul>
+          <div style={{display:"flex",gap:"1rem",alignItems:"center"}}>
+            <a href="YOUR_RESUME_URL_HERE" download style={{fontSize:".8rem",fontWeight:600,color:S.white,background:S.accent,padding:".4rem 1rem",borderRadius:"999px",textDecoration:"none"}}>Download CV</a>
+            <button onClick={()=>setOpen(v=>!v)} style={{display:"flex",alignItems:"center",justifyContent:"center",background:"transparent",border:`1px solid ${S.border}`,borderRadius:"50%",width:36,height:36,cursor:"pointer"}} className="flex md:hidden" aria-label="Toggle menu">
+              {open?<X size={18}/>:<Menu size={18}/>}
             </button>
           </div>
         </div>
-
         <AnimatePresence>
-          {mobileOpen && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              className="border-t border-stone-200 bg-gradient-to-br from-[#eef2ff] via-[#f5f3ff] to-[#e0f2fe] md:hidden"
-            >
-              <div className="mx-auto flex max-w-7xl flex-col px-5 py-4">
-                {NAV_ITEMS.map((item) => (
-                  <a
-                    key={item.label}
-                    href={item.hash}
-                    className="py-3 text-sm text-stone-700"
-                    onClick={() => setMobileOpen(false)}
-                  >
-                    {item.label}
-                  </a>
-                ))}
-              </div>
-            </motion.div>
-          )}
+          {open&&<motion.div initial={{opacity:0,height:0}} animate={{opacity:1,height:"auto"}} exit={{opacity:0,height:0}} style={{borderTop:`1px solid ${S.border}`,background:S.paper}} className="md:hidden">
+            <div style={{maxWidth:1100,margin:"0 auto",padding:"0 1.5rem"}}>
+              {NAV_ITEMS.map(n=><a key={n.label} href={n.hash} onClick={()=>setOpen(false)} style={{display:"block",padding:".85rem 0",fontSize:".9rem",color:S.ink2}}>{n.label}</a>)}
+            </div>
+          </motion.div>}
         </AnimatePresence>
-      </div>
-
-      <main className="pt-24">{children}</main>
+      </nav>
+      <main>{children}</main>
+      <footer style={{borderTop:`1px solid ${S.border}`,padding:"1.5rem 2rem",textAlign:"center",fontSize:".8rem",color:S.ink3}}>
+        <p>© {new Date().getFullYear()} Ololade Abiodun · Instructional Designer · Lagos, Nigeria</p>
+      </footer>
     </div>
   );
 }
 
-function Hero() {
-  return (
-    <section className="mx-auto max-w-7xl px-5 pb-14 pt-8 md:px-8 md:pb-20 md:pt-12">
-      <div className="grid items-end gap-10 lg:grid-cols-[1.15fr_0.85fr]">
-        <div>
-          <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }}>
-            <SectionTag>Instructional Design Portfolio</SectionTag>
-          </motion.div>
-          <motion.h1
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.08, duration: 0.6 }}
-            className="mt-6 max-w-4xl text-4xl font-semibold leading-tight tracking-tight text-stone-950 md:text-6xl"
-          >
-            Designing future-ready learning systems for technical and AI-enabled environments.
-          </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.16, duration: 0.6 }}
-            className="mt-6 max-w-2xl text-base leading-8 text-stone-700 md:text-lg"
-          >
-            I design learner-centered experiences that combine pedagogy, structure, and modern technology — with a strong emphasis on curriculum design, assessment strategy, and responsible AI integration.
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 22 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.24, duration: 0.6 }}
-            className="mt-8 flex flex-wrap gap-3"
-          >
-            <a
-              href="#/case-studies"
-              className="inline-flex items-center gap-2 rounded-full bg-[#5b3b8c] px-5 py-3 text-sm text-white transition hover:translate-y-[-1px]"
-            >
-              View Case Studies <ArrowRight className="h-4 w-4" />
-            </a>
-            <a
-              href="#/about"
-              className="inline-flex items-center gap-2 rounded-full border border-stone-300 bg-white/80 px-5 py-3 text-sm text-stone-900 transition hover:bg-white"
-            >
-              Learn More
-            </a>
-          </motion.div>
-        </div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.98 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 0.12, duration: 0.65 }}
-          className="relative"
-        >
-          <div className="absolute inset-0 translate-x-5 translate-y-5 rounded-[2rem] bg-stone-300/40 blur-2xl" />
-          <div className="relative overflow-hidden rounded-[2rem] border border-stone-200 bg-white p-7 shadow-[0_10px_40px_rgba(28,25,23,0.08)] md:p-8">
-            <div className="grid gap-4">
-              {[
-                [Brain, "AI-enhanced curriculum design"],
-                [BookOpen, "Assessment and evaluation frameworks"],
-                [GraduationCap, "Technical curriculum development"],
-                [ShieldCheck, "Responsible AI integration in education"],
-              ].map(([Icon, label], index) => (
-                <motion.div
-                  key={label}
-                  initial={{ opacity: 0, x: 14 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.25 + index * 0.08, duration: 0.4 }}
-                  className="flex items-center gap-4 rounded-2xl border border-stone-200 bg-stone-50/80 p-4"
-                >
-                  <div className="rounded-2xl bg-white p-3 shadow-sm">
-                    <Icon className="h-5 w-5 text-stone-800" />
-                  </div>
-                  <p className="text-sm font-medium text-stone-800">{label}</p>
-                </motion.div>
+function HomePage(){
+  return(<>
+    <section style={{maxWidth:1100,margin:"0 auto",padding:"6rem 2rem 4rem"}}>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"4rem",alignItems:"center"}} className="grid-cols-1 lg:grid-cols-2">
+        <motion.div initial={{opacity:0,y:20}} animate={{opacity:1,y:0}} transition={{duration:.55}}>
+          <div style={{display:"inline-flex",alignItems:"center",gap:".5rem",background:S.terraLight,color:S.terra,fontSize:".75rem",fontWeight:600,letterSpacing:".08em",textTransform:"uppercase",padding:".35rem .9rem",borderRadius:"999px",border:`1px solid ${S.terraBorder}`,marginBottom:"1.5rem"}}>✦ Available for global opportunities</div>
+          <h1 style={{fontFamily:S.serif,fontSize:"clamp(2.5rem,4vw,3.7rem)",lineHeight:1.08,letterSpacing:"-.02em",color:S.ink,margin:"0 0 1.2rem"}}>
+            Learning design<br/>grounded in<br/><em style={{color:S.accent,fontStyle:"italic"}}>real practice.</em>
+          </h1>
+          <p style={{fontSize:"1.02rem",color:S.ink2,lineHeight:1.75,maxWidth:480,margin:"0 0 2rem"}}>Instructional Designer and Curriculum Developer with 4+ years building tech education programs that have reached thousands of learners — combining strong pedagogical foundations with a technical background, and using AI as a tool, not a shortcut.</p>
+          <div style={{display:"flex",gap:"1rem",flexWrap:"wrap"}}>
+            <a href="#/case-studies" style={{display:"inline-flex",alignItems:"center",gap:".5rem",background:S.accent,color:S.white,fontWeight:600,fontSize:".88rem",padding:".7rem 1.5rem",borderRadius:"999px",textDecoration:"none"}}>View my work <ArrowRight size={16}/></a>
+            <a href="#/about" style={{display:"inline-flex",alignItems:"center",gap:".5rem",border:`1.5px solid ${S.accent}`,color:S.accent,fontWeight:500,fontSize:".88rem",padding:".7rem 1.5rem",borderRadius:"999px",textDecoration:"none",background:"transparent"}}>About me</a>
+          </div>
+        </motion.div>
+        <motion.div initial={{opacity:0,scale:.97}} animate={{opacity:1,scale:1}} transition={{delay:.1,duration:.6}} className="hidden lg:block">
+          <Card>
+            <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"1rem",marginBottom:"1rem"}}>
+              {[{num:"4+",label:"Years designing",bg:S.accentLight,clr:S.accent},{num:"83%",label:"Program impact rate",bg:S.terraLight,clr:S.terra},{num:"5,000+",label:"Learners reached",bg:S.paper,clr:S.accent},{num:"4",label:"Programs built",bg:S.paper,clr:S.terra}].map(({num,label,bg,clr})=>(
+                <div key={label} style={{background:bg,borderRadius:12,padding:"1.1rem",textAlign:"center",border:bg===S.paper?`1px solid ${S.border}`:"none"}}>
+                  <span style={{fontFamily:S.serif,fontSize:"1.9rem",color:clr,display:"block",lineHeight:1}}>{num}</span>
+                  <span style={{fontSize:".7rem",color:S.ink3,fontWeight:500,textTransform:"uppercase",letterSpacing:".06em",marginTop:".3rem",display:"block"}}>{label}</span>
+                </div>
               ))}
             </div>
-          </div>
+            <div style={{display:"flex",flexWrap:"wrap",gap:".4rem"}}>
+              {["ADDIE","LMS Admin","Curriculum Design","Facilitator Enablement","M&E Frameworks"].map(t=>(
+                <span key={t} style={{fontSize:".72rem",fontWeight:500,padding:".25rem .75rem",borderRadius:"999px",background:S.paper,border:`1px solid ${S.border}`,color:S.ink2}}>{t}</span>
+              ))}
+            </div>
+          </Card>
         </motion.div>
       </div>
     </section>
-  );
-}
-
-function FeaturedGrid() {
-  return (
-    <section className="mx-auto max-w-7xl px-5 py-16 md:px-8">
-      <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <div>
-          <SectionTag>Selected Work</SectionTag>
-          <h2 className="mt-4 text-3xl font-semibold tracking-tight md:text-4xl">Featured case studies</h2>
-        </div>
-        <a href="#/case-studies" className="inline-flex items-center gap-2 text-sm font-medium text-[#312e81]">
-          See all projects <ArrowRight className="h-4 w-4" />
-        </a>
-      </div>
-
-      <div className="grid gap-6 lg:grid-cols-3">
-        {caseStudies.map((study, index) => {
-          const Icon = study.icon;
-          return (
-            <motion.a
-              key={study.slug}
-              href={`#/case-studies/${study.slug}`}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.2 }}
-              transition={{ delay: index * 0.08, duration: 0.45 }}
-              className="group rounded-[2rem] border border-stone-200 bg-white p-6 shadow-[0_8px_30px_rgba(28,25,23,0.05)] transition hover:-translate-y-1 hover:shadow-[0_14px_34px_rgba(28,25,23,0.08)]"
-            >
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-stone-100">
-                <Icon className="h-6 w-6 text-stone-800" />
-              </div>
-              <p className="mt-6 text-xs font-medium uppercase tracking-[0.22em] text-stone-500">{study.eyebrow}</p>
-              <h3 className="mt-3 text-2xl font-semibold tracking-tight text-stone-950">{study.title}</h3>
-              <p className="mt-4 text-sm leading-7 text-stone-700">{study.summary}</p>
-              <div className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-[#5b3b8c]">
-                View project <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
-              </div>
-            </motion.a>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
-function AboutPreview() {
-  return (
-    <section className="mx-auto max-w-7xl px-5 py-16 md:px-8">
-      <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
-        <div className="rounded-[2rem] border border-stone-200 bg-[#5b3b8c] p-7 text-white">
-          <SectionTag>What I do</SectionTag>
-          <h2 className="mt-4 text-3xl font-semibold tracking-tight">Learning design with structure, curiosity, and impact.</h2>
-        </div>
-        <div className="rounded-[2rem] border border-stone-200 bg-white p-7 shadow-sm md:p-8">
-          <p className="text-base leading-8 text-stone-700">
-            I’m an instructional designer with a strong technical foundation, focused on building curriculum frameworks and learning systems for technology-driven programs. My work sits at the intersection of learning design, technical systems, and facilitator enablement.
-          </p>
-          <div className="mt-8 grid gap-4 md:grid-cols-2">
-            {[
-              "AI-enhanced curriculum design",
-              "Instructional design and learning strategy",
-              "Assessment and evaluation frameworks",
-              "EdTech and learning systems thinking",
-            ].map((item) => (
-              <div key={item} className="rounded-2xl bg-stone-50 p-4 text-sm text-stone-800">
-                {item}
-              </div>
+    <hr style={{border:"none",borderTop:`1px solid ${S.border}`,margin:0}}/>
+    <section style={{maxWidth:1100,margin:"0 auto",padding:"4rem 2rem"}}>
+      <div style={{display:"grid",gridTemplateColumns:".8fr 1.2fr",gap:"2rem"}} className="grid-cols-1 lg:grid-cols-[.8fr_1.2fr]">
+        <AccentCard>
+          <SectionTag light>What I do</SectionTag>
+          <h2 style={{fontFamily:S.serif,fontSize:"1.9rem",lineHeight:1.15,color:S.white,margin:"1rem 0 0"}}>Learning design with structure, curiosity, and impact.</h2>
+        </AccentCard>
+        <Card>
+          <p style={{fontSize:"1rem",color:S.ink2,lineHeight:1.8,margin:"0 0 1.5rem"}}>I'm an instructional designer with a strong technical foundation, building curriculum frameworks and learning systems for technology-driven programs. My work sits at the intersection of learning design, technical systems, and facilitator enablement.</p>
+          <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:".75rem",marginBottom:"1.5rem"}}>
+            {["AI-enhanced curriculum design","Instructional design and learning strategy","Assessment and evaluation frameworks","EdTech and learning systems thinking"].map(t=>(
+              <div key={t} style={{background:"#F8F9FB",borderRadius:10,padding:".75rem 1rem",fontSize:".85rem",color:S.ink2}}>{t}</div>
             ))}
           </div>
-          <a href="#/about" className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-[#312e81]">
-            More about me <ArrowRight className="h-4 w-4" />
-          </a>
-        </div>
+          <a href="#/about" style={{display:"inline-flex",alignItems:"center",gap:".4rem",fontSize:".88rem",fontWeight:500,color:S.accent}}>More about me <ArrowRight size={15}/></a>
+        </Card>
       </div>
     </section>
-  );
-}
-
-function ContactStrip() {
-  return (
-    <section className="mx-auto max-w-7xl px-5 py-16 md:px-8">
-      <div className="rounded-[2rem] border border-stone-200 bg-white p-8 shadow-sm md:p-10">
-        <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
-          <div>
-            <SectionTag>Contact</SectionTag>
-            <h2 className="mt-4 text-3xl font-semibold tracking-tight">Let’s build learning experiences that work in real-world environments.</h2>
-          </div>
-          <a href="#/contact" className="inline-flex items-center gap-2 rounded-full bg-[#5b3b8c] px-5 py-3 text-sm text-white">
-            Contact Me <ArrowRight className="h-4 w-4" />
-          </a>
-        </div>
+    <hr style={{border:"none",borderTop:`1px solid ${S.border}`,margin:0}}/>
+    <section style={{maxWidth:1100,margin:"0 auto",padding:"4rem 2rem"}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"flex-end",marginBottom:"2.5rem",flexWrap:"wrap",gap:"1rem"}}>
+        <div><SectionTag>Selected Work</SectionTag><h2 style={{fontFamily:S.serif,fontSize:"clamp(1.9rem,3vw,2.6rem)",lineHeight:1.1,letterSpacing:"-.02em",color:S.ink,margin:".8rem 0 0"}}>Featured case studies</h2></div>
+        <a href="#/case-studies" style={{display:"inline-flex",alignItems:"center",gap:".4rem",fontSize:".88rem",fontWeight:500,color:S.accent}}>See all <ArrowRight size={15}/></a>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:"1.25rem"}}>
+        {caseStudies.map((cs,i)=>{const Icon=cs.icon;return(
+          <motion.a key={cs.slug} href={`#/case-studies/${cs.slug}`} initial={{opacity:0,y:16}} whileInView={{opacity:1,y:0}} viewport={{once:true,amount:.2}} transition={{delay:i*.07,duration:.4}}
+            style={{display:"block",background:S.white,border:`1px solid ${S.border}`,borderRadius:20,padding:"1.5rem",textDecoration:"none",transition:"transform .2s, box-shadow .2s"}}
+            onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 12px 40px rgba(27,58,107,.1)";}}
+            onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="";}}>
+            <div style={{width:48,height:48,borderRadius:12,background:S.accentLight,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:"1.2rem"}}><Icon size={22} color={S.accent}/></div>
+            <p style={{fontSize:".7rem",fontWeight:600,textTransform:"uppercase",letterSpacing:".12em",color:S.ink3,margin:"0 0 .4rem"}}>{cs.eyebrow}</p>
+            <h3 style={{fontFamily:S.serif,fontSize:"1.2rem",color:S.ink,margin:"0 0 .6rem",lineHeight:1.2}}>{cs.title}</h3>
+            <p style={{fontSize:".875rem",color:S.ink2,lineHeight:1.65,margin:"0 0 1.2rem"}}>{cs.summary}</p>
+            <span style={{display:"inline-flex",alignItems:"center",gap:".35rem",fontSize:".85rem",fontWeight:500,color:S.accent}}>View project <ArrowRight size={14}/></span>
+          </motion.a>
+        );})}
       </div>
     </section>
-  );
+    <hr style={{border:"none",borderTop:`1px solid ${S.border}`,margin:0}}/>
+    <section style={{maxWidth:1100,margin:"0 auto",padding:"4rem 2rem"}}>
+      <Card style={{display:"flex",flexWrap:"wrap",alignItems:"center",justifyContent:"space-between",gap:"1.5rem"}}>
+        <div><SectionTag>Contact</SectionTag><h2 style={{fontFamily:S.serif,fontSize:"clamp(1.6rem,2.5vw,2rem)",lineHeight:1.2,color:S.ink,margin:".8rem 0 0",maxWidth:500}}>Let's build learning experiences that work in real-world environments.</h2></div>
+        <a href="#/contact" style={{display:"inline-flex",alignItems:"center",gap:".5rem",background:S.accent,color:S.white,fontWeight:600,fontSize:".88rem",padding:".7rem 1.5rem",borderRadius:"999px",textDecoration:"none"}}>Contact me <ArrowRight size={16}/></a>
+      </Card>
+    </section>
+  </>);
 }
 
-function HomePage() {
-  return (
-    <>
-      <Hero />
-      <AboutPreview />
-      <FeaturedGrid />
-      <ContactStrip />
-    </>
-  );
-}
-
-function AboutPage() {
-  return (
-    <section className="mx-auto max-w-6xl px-5 py-10 md:px-8 md:py-16">
+function AboutPage(){
+  return(
+    <section style={{maxWidth:1100,margin:"0 auto",padding:"4rem 2rem"}}>
       <SectionTag>About</SectionTag>
-      <h1 className="mt-5 text-4xl font-semibold tracking-tight md:text-5xl">About me</h1>
-      <div className="mt-8 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <div className="rounded-[2rem] border border-stone-200 bg-white p-7 shadow-sm md:p-9">
-          <div className="space-y-6 text-base leading-8 text-stone-700">
-            <p>
-              I’m an instructional designer with a strong technical foundation, focused on designing curriculum frameworks and learning systems for technology-driven programs.
-            </p>
-            <p>
-              My work sits at the intersection of learning design, technical systems, and facilitator enablement. I design programs that build durable skills, helping learners develop sound reasoning and apply knowledge effectively in real-world, tool-rich environments.
-            </p>
-            <p>
-              In my current role, I create curriculum structures that facilitators translate into lesson delivery, which has shaped my emphasis on clarity, scalability, and learning transfer over content volume.
-            </p>
-            <p>
-              I’ve designed learning across multiple formats, including bootcamps, fellowships, and short-form programs, supporting learners at different stages of life and career while maintaining rigor and practical outcomes.
-            </p>
-            <p>
-              I approach instructional design with structure, curiosity, and a focus on impact.
-            </p>
+      <h1 style={{fontFamily:S.serif,fontSize:"clamp(2rem,3.5vw,2.8rem)",lineHeight:1.1,letterSpacing:"-.02em",color:S.ink,margin:".8rem 0 2rem"}}>The designer behind the work</h1>
+      <div style={{display:"grid",gridTemplateColumns:"1.1fr .9fr",gap:"2.5rem"}} className="grid-cols-1 lg:grid-cols-[1.1fr_.9fr]">
+        <Card>
+          <div style={{fontSize:"1rem",color:S.ink2,lineHeight:1.85}}>
+            {["I'm an Instructional Designer based in Lagos, Nigeria, with a background that sits at the intersection of education and technology. Before moving into learning design full-time, I trained as a backend engineer — which means I don't just design tech curricula, I understand what I'm teaching.",
+              "I design learning programs for large-scale tech education initiatives — building everything from multi-day facilitator guides and career pathway tools to LMS systems and assessment frameworks from scratch.",
+              "My design philosophy is simple: learners remember what they experience, not what they're told. Every decision I make — from learning objective framing to activity sequencing — is grounded in that principle.",
+              "I use AI as a practical tool in my design process, the same way I'd use any other — deliberately, critically, and never as a substitute for sound instructional thinking.",
+              "I'm actively seeking global instructional design roles, particularly in EdTech, NGOs, or international development, where I can bring evidence-based design to programs that scale.",
+            ].map((p,i)=><p key={i} style={{margin:"0 0 1rem"}}>{p}</p>)}
           </div>
-        </div>
-
-        <div className="space-y-6">
-          <div className="rounded-[2rem] border border-stone-200 bg-[#5b3b8c] p-7 text-white">
-            <h2 className="text-xl font-semibold">Core focus areas</h2>
-            <div className="mt-5 grid gap-3">
-              {[
-                "Future-ready curriculum design",
-                "Technical learning programs",
-                "Facilitator enablement",
-                "Assessment and evaluation strategy",
-                "Responsible AI in education",
-              ].map((item) => (
-                <div key={item} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-stone-100">
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="rounded-[2rem] border border-stone-200 bg-white p-7 shadow-sm">
-            <h2 className="text-xl font-semibold text-stone-950">Selected strengths</h2>
-            <div className="mt-5 grid gap-3">
-              {[
-                "Learner-centered design",
-                "Structured learning progression",
-                "Scenario-based assessment",
-                "Clarity for facilitator delivery",
-                "Systems thinking for program design",
-              ].map((item) => (
-                <div key={item} className="rounded-2xl bg-stone-50 p-4 text-sm text-stone-800">
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
+          <a href="YOUR_RESUME_URL_HERE" download style={{marginTop:"1.2rem",display:"inline-flex",alignItems:"center",gap:".5rem",background:S.accent,color:S.white,fontWeight:600,fontSize:".88rem",padding:".7rem 1.4rem",borderRadius:"999px",textDecoration:"none"}}>
+            <Download size={15}/> Download Resume
+          </a>
+        </Card>
+        <div style={{display:"flex",flexDirection:"column",gap:"1rem"}}>
+          <AccentCard>
+            <h3 style={{fontFamily:S.serif,fontSize:"1.2rem",color:S.white,margin:"0 0 1rem"}}>Core focus areas</h3>
+            {["Future-ready curriculum design","Technical learning programs","Facilitator enablement","Assessment and evaluation strategy","Responsible AI integration in education"].map(t=>(
+              <div key={t} style={{background:"rgba(255,255,255,.08)",border:"1px solid rgba(255,255,255,.12)",borderRadius:10,padding:".7rem 1rem",fontSize:".85rem",color:"rgba(255,255,255,.9)",marginBottom:".5rem"}}>{t}</div>
+            ))}
+          </AccentCard>
+          <Card>
+            <h3 style={{fontFamily:S.serif,fontSize:"1.2rem",color:S.ink,margin:"0 0 1rem"}}>Education & certifications</h3>
+            {["PGD Computer Science · Lead City University (2025)","Diploma in Backend Engineering · AltSchool Africa","AWS Solutions Architect – Associate (2023)"].map(t=>(
+              <div key={t} style={{background:"#F8F9FB",borderRadius:10,padding:".7rem 1rem",fontSize:".85rem",color:S.ink2,marginBottom:".5rem"}}>{t}</div>
+            ))}
+          </Card>
+          <Card>
+            <h3 style={{fontFamily:S.serif,fontSize:"1.2rem",color:S.ink,margin:"0 0 1rem"}}>Open to</h3>
+            {["Remote & international roles","EdTech companies and learning platforms","NGOs and international development","Corporate L&D — technical programs"].map(t=>(
+              <div key={t} style={{background:"#F8F9FB",borderRadius:10,padding:".7rem 1rem",fontSize:".85rem",color:S.ink2,marginBottom:".5rem"}}>{t}</div>
+            ))}
+          </Card>
         </div>
       </div>
     </section>
   );
 }
 
-function CaseStudiesPage() {
-  return (
-    <section className="mx-auto max-w-7xl px-5 py-10 md:px-8 md:py-16">
+function CaseStudiesPage(){
+  return(
+    <section style={{maxWidth:1100,margin:"0 auto",padding:"4rem 2rem"}}>
       <SectionTag>Portfolio</SectionTag>
-      <h1 className="mt-5 text-4xl font-semibold tracking-tight md:text-5xl">Case studies</h1>
-      <p className="mt-5 max-w-3xl text-base leading-8 text-stone-700">
-        A selection of curriculum and learning design projects focused on AI literacy, technical education, and scalable instructor-led delivery.
-      </p>
-
-      <div className="mt-12 grid gap-6 lg:grid-cols-3">
-        {caseStudies.map((study) => {
-          const Icon = study.icon;
-          return (
-            <a
-              key={study.slug}
-              href={`#/case-studies/${study.slug}`}
-              className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-sm transition hover:-translate-y-1"
-            >
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-stone-100">
-                <Icon className="h-6 w-6 text-stone-800" />
-              </div>
-              <p className="mt-6 text-xs uppercase tracking-[0.22em] text-stone-500">{study.eyebrow}</p>
-              <h2 className="mt-3 text-2xl font-semibold tracking-tight">{study.title}</h2>
-              <p className="mt-4 text-sm leading-7 text-stone-700">{study.summary}</p>
-              <div className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-[#312e81]">Open project <ArrowRight className="h-4 w-4" /></div>
-            </a>
-          );
-        })}
+      <h1 style={{fontFamily:S.serif,fontSize:"clamp(2rem,3.5vw,2.8rem)",lineHeight:1.1,color:S.ink,margin:".8rem 0 1rem"}}>Case studies</h1>
+      <p style={{fontSize:"1rem",color:S.ink2,lineHeight:1.75,maxWidth:560,margin:"0 0 2.5rem"}}>End-to-end instructional design projects — from needs analysis and curriculum architecture to facilitator enablement, delivery, and impact measurement.</p>
+      <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(260px,1fr))",gap:"1.25rem"}}>
+        {caseStudies.map(cs=>{const Icon=cs.icon;return(
+          <a key={cs.slug} href={`#/case-studies/${cs.slug}`}
+            style={{display:"block",background:S.white,border:`1px solid ${S.border}`,borderRadius:20,padding:"1.5rem",textDecoration:"none",transition:"transform .2s, box-shadow .2s"}}
+            onMouseEnter={e=>{e.currentTarget.style.transform="translateY(-2px)";e.currentTarget.style.boxShadow="0 12px 40px rgba(27,58,107,.1)";}}
+            onMouseLeave={e=>{e.currentTarget.style.transform="";e.currentTarget.style.boxShadow="";}}>
+            <div style={{width:48,height:48,borderRadius:12,background:S.accentLight,display:"flex",alignItems:"center",justifyContent:"center",marginBottom:"1.2rem"}}><Icon size={22} color={S.accent}/></div>
+            <p style={{fontSize:".7rem",fontWeight:600,textTransform:"uppercase",letterSpacing:".12em",color:S.ink3,margin:"0 0 .4rem"}}>{cs.eyebrow}</p>
+            <h2 style={{fontFamily:S.serif,fontSize:"1.2rem",color:S.ink,margin:"0 0 .6rem",lineHeight:1.2}}>{cs.title}</h2>
+            <p style={{fontSize:".875rem",color:S.ink2,lineHeight:1.65,margin:"0 0 1.2rem"}}>{cs.summary}</p>
+            <span style={{display:"inline-flex",alignItems:"center",gap:".35rem",fontSize:".85rem",fontWeight:500,color:S.accent}}>Open project <ArrowRight size={14}/></span>
+          </a>
+        );})}
       </div>
     </section>
   );
 }
 
-function BulletList({ items }) {
-  return (
-    <div className="grid gap-3">
-      {items.map((item) => (
-        <div key={item} className="rounded-2xl bg-stone-50 p-4 text-sm leading-7 text-stone-800">
-          {item}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function StudyLayout({ study, children }) {
-  return (
-    <section className="mx-auto max-w-7xl px-5 py-10 md:px-8 md:py-16">
-      <a href="#/case-studies" className="inline-flex items-center gap-2 text-sm text-[#5b3b8c]">
-        <ChevronLeft className="h-4 w-4" /> Back to case studies
+function CaseStudyDetailPage({study}){
+  const bg=thumbBg[study.color]||S.accent;
+  return(
+    <section style={{maxWidth:1100,margin:"0 auto",padding:"3rem 2rem"}}>
+      <a href="#/case-studies" style={{display:"inline-flex",alignItems:"center",gap:".35rem",fontSize:".875rem",color:S.accent,marginBottom:"1.5rem"}}>
+        <ChevronLeft size={16}/> Back to case studies
       </a>
-
-      <div className="mt-6 rounded-[2rem] border border-stone-200 bg-white p-7 shadow-sm md:p-10">
-        <p className="text-xs uppercase tracking-[0.22em] text-stone-500">{study.eyebrow}</p>
-        <h1 className="mt-3 max-w-4xl text-4xl font-semibold tracking-tight md:text-5xl">{study.title}</h1>
-        <p className="mt-5 max-w-3xl text-base leading-8 text-stone-700">{study.heroNote}</p>
-      </div>
-
-      <div className="mt-8">{children}</div>
-    </section>
-  );
-}
-
-function Card({ title, children }) {
-  return (
-    <div className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-sm md:p-7">
-      <h2 className="text-2xl font-semibold tracking-tight text-stone-950">{title}</h2>
-      <div className="mt-5">{children}</div>
-    </div>
-  );
-}
-
-function AILiteracyPage({ study }) {
-  return (
-    <StudyLayout study={study}>
-      <div className="grid gap-6 lg:grid-cols-[1.05fr_0.95fr]">
-        <Card title="Project overview">
-          <p className="text-base leading-8 text-stone-700">{study.summary}</p>
-          <p className="mt-4 text-base leading-8 text-stone-700">{study.challenge}</p>
-        </Card>
-        <Card title="Learning and program objectives">
-          <BulletList items={study.objectives} />
-        </Card>
-      </div>
-
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
-        <Card title="Instructional strategy and approach">
-          <BulletList items={study.approach} />
-        </Card>
-        <Card title="Evaluation and measurement">
-          <BulletList items={study.metrics} />
-        </Card>
-      </div>
-
-      <div className="mt-6 rounded-[2rem] border border-stone-200 bg-[#5b3b8c] p-7 text-white md:p-8">
-        <h2 className="text-2xl font-semibold tracking-tight">Role and contribution</h2>
-        <div className="mt-5 grid gap-3 md:grid-cols-2">
-          {study.contribution.map((item) => (
-            <div key={item} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm leading-7 text-stone-100">
-              {item}
-            </div>
-          ))}
+      <div style={{background:bg,borderRadius:24,padding:"3rem",color:S.white,marginBottom:"1.5rem"}}>
+        <p style={{fontSize:".7rem",fontWeight:700,letterSpacing:".1em",textTransform:"uppercase",color:"rgba(255,255,255,.7)",margin:"0 0 .5rem"}}>{study.eyebrow}</p>
+        <h1 style={{fontFamily:S.serif,fontSize:"clamp(1.8rem,3.5vw,2.6rem)",lineHeight:1.1,margin:".4rem 0 .8rem"}}>{study.title}</h1>
+        <p style={{fontSize:".95rem",color:"rgba(255,255,255,.82)",lineHeight:1.65,maxWidth:600,margin:"0 0 2rem"}}>{study.heroNote}</p>
+        <div style={{display:"flex",gap:"2rem",flexWrap:"wrap"}}>
+          {study.stats.map(s=><div key={s.label}><span style={{fontFamily:S.serif,fontSize:"1.7rem",color:S.white,display:"block"}}>{s.num}</span><span style={{fontSize:".68rem",color:"rgba(255,255,255,.65)",textTransform:"uppercase",letterSpacing:".07em"}}>{s.label}</span></div>)}
         </div>
       </div>
-
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
-        {study.subStudies.map((sub) => (
-          <Card key={sub.title} title={sub.title}>
-            <p className="text-sm uppercase tracking-[0.18em] text-stone-500">{sub.audience}</p>
-            <p className="mt-3 text-base leading-8 text-stone-700">{sub.description}</p>
-            <div className="mt-6 space-y-5">
-              <div>
-                <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-900">Key topics</h3>
-                <div className="mt-3"><BulletList items={sub.topics} /></div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"1.25rem",marginBottom:"1.25rem"}}>
+        <Card><h2 style={{fontFamily:S.serif,fontSize:"1.15rem",color:S.accent,borderBottom:`2px solid ${S.accentLight}`,paddingBottom:".4rem",margin:"0 0 .8rem"}}>The Challenge</h2><p style={{fontSize:".9rem",color:S.ink2,lineHeight:1.75,margin:0}}>{study.challenge}</p></Card>
+        <Card><h2 style={{fontFamily:S.serif,fontSize:"1.15rem",color:S.accent,borderBottom:`2px solid ${S.accentLight}`,paddingBottom:".4rem",margin:"0 0 .8rem"}}>Learning Objectives</h2>{study.objectives.map(t=><BulletItem key={t} text={t}/>)}</Card>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"1.25rem",marginBottom:"1.25rem"}}>
+        <Card><h2 style={{fontFamily:S.serif,fontSize:"1.15rem",color:S.accent,borderBottom:`2px solid ${S.accentLight}`,paddingBottom:".4rem",margin:"0 0 .8rem"}}>Design Approach</h2>{study.approach.map(t=><BulletItem key={t} text={t}/>)}</Card>
+        <Card><h2 style={{fontFamily:S.serif,fontSize:"1.15rem",color:S.accent,borderBottom:`2px solid ${S.accentLight}`,paddingBottom:".4rem",margin:"0 0 .8rem"}}>Evaluation & Metrics</h2>{study.metrics.map(t=><BulletItem key={t} text={t}/>)}</Card>
+      </div>
+      <div style={{background:S.accent,borderRadius:20,padding:"2rem",marginBottom:"1.25rem"}}>
+        <h2 style={{fontFamily:S.serif,fontSize:"1.15rem",color:S.white,margin:"0 0 1rem"}}>Role & Contribution</h2>
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:".6rem"}}>
+          {study.contribution.map(t=><div key={t} style={{background:"rgba(255,255,255,.08)",border:"1px solid rgba(255,255,255,.12)",borderRadius:10,padding:".7rem .9rem",fontSize:".85rem",color:"rgba(255,255,255,.9)",lineHeight:1.55}}>{t}</div>)}
+        </div>
+      </div>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"1.25rem"}}>
+        {study.subStudies.map(sub=>(
+          <Card key={sub.title} style={{padding:"1.5rem"}}>
+            <h3 style={{fontFamily:S.serif,fontSize:"1.1rem",color:S.ink,margin:"0 0 .2rem"}}>{sub.title}</h3>
+            <p style={{fontSize:".7rem",fontWeight:600,textTransform:"uppercase",letterSpacing:".08em",color:S.terra,margin:"0 0 .6rem"}}>{sub.audience}</p>
+            <p style={{fontSize:".875rem",color:S.ink2,lineHeight:1.65,margin:"0 0 1.1rem"}}>{sub.description}</p>
+            {[{label:"Key topics",items:sub.topics},{label:"Learning activities",items:sub.activities},{label:"Assessment",items:sub.assessment}].map(({label,items})=>(
+              <div key={label} style={{marginBottom:"1rem"}}>
+                <p style={{fontSize:".68rem",fontWeight:700,textTransform:"uppercase",letterSpacing:".1em",color:S.ink3,margin:"0 0 .4rem"}}>{label}</p>
+                {items.map(t=><BulletItem key={t} text={t}/>)}
               </div>
-              <div>
-                <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-900">Learning activities</h3>
-                <div className="mt-3"><BulletList items={sub.activities} /></div>
-              </div>
-              <div>
-                <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-900">Assessment</h3>
-                <div className="mt-3"><BulletList items={sub.assessment} /></div>
-              </div>
-            </div>
+            ))}
           </Card>
         ))}
       </div>
-    </StudyLayout>
+    </section>
   );
 }
 
-function SoftwarePage({ study }) {
-  return (
-    <StudyLayout study={study}>
-      <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-        <Card title="The problem">
-          <p className="text-base leading-8 text-stone-700">{study.challenge}</p>
-        </Card>
-        <Card title="Target learners">
-          <BulletList items={study.learners} />
-        </Card>
-      </div>
-
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
-        <Card title="Learning goals">
-          <BulletList items={study.goals} />
-        </Card>
-        <Card title="Instructional design approach">
-          <BulletList items={study.designApproach} />
-        </Card>
-      </div>
-
-      <div className="mt-6 rounded-[2rem] border border-stone-200 bg-white p-6 shadow-sm md:p-7">
-        <h2 className="text-2xl font-semibold tracking-tight">Curriculum structure</h2>
-        <div className="mt-6 grid gap-4">
-          {study.modules.map((module) => (
-            <div key={module.title} className="rounded-2xl border border-stone-200 bg-stone-50/70 p-5">
-              <h3 className="text-lg font-semibold text-stone-950">{module.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-stone-700">{module.body}</p>
-              <p className="mt-3 text-sm font-medium text-stone-900">Assessment: <span className="font-normal text-stone-700">{module.assessment}</span></p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
-        <Card title="Tools and deliverables">
-          <BulletList items={study.deliverables} />
-        </Card>
-        <Card title="Why this case study matters">
-          <BulletList
-            items={[
-              "Design structured technical curricula",
-              "Balance foundational learning with real-world tool usage",
-              "Support learners transitioning to independent problem-solving",
-              "Create learning experiences that remain relevant as tools evolve",
-            ]}
-          />
-        </Card>
-      </div>
-    </StudyLayout>
-  );
-}
-
-function DevOpsPage({ study }) {
-  return (
-    <StudyLayout study={study}>
-      <div className="grid gap-6 lg:grid-cols-[1fr_1fr]">
-        <Card title="The problem">
-          <p className="text-base leading-8 text-stone-700">{study.problem}</p>
-        </Card>
-        <Card title="Program overview">
-          <p className="text-base leading-8 text-stone-700">{study.overview}</p>
-        </Card>
-      </div>
-
-      <div className="mt-6 grid gap-6 lg:grid-cols-2">
-        <Card title="My approach">
-          <BulletList items={study.roleFocus} />
-        </Card>
-        <Card title="Curriculum design rationale">
-          <BulletList items={study.rationale} />
-        </Card>
-      </div>
-
-      <div className="mt-6 rounded-[2rem] border border-stone-200 bg-[#312e81] p-7 text-white md:p-8">
-        <h2 className="text-2xl font-semibold tracking-tight">Curriculum overview</h2>
-        <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-          {study.phases.map((phase) => (
-            <div key={phase.title} className="rounded-2xl border border-white/10 bg-white/5 p-5">
-              <h3 className="text-lg font-semibold">{phase.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-stone-100/90">{phase.body}</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="mt-6 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
-        <Card title="Assessment strategy">
-          <BulletList items={study.assessmentStrategy} />
-        </Card>
-        <Card title={study.sampleAssessment.title}>
-          <p className="text-sm leading-7 text-stone-700">{study.sampleAssessment.scenario}</p>
-          <div className="mt-5">
-            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-900">Learner tasks</h3>
-            <div className="mt-3"><BulletList items={study.sampleAssessment.tasks} /></div>
-          </div>
-          <div className="mt-5">
-            <h3 className="text-sm font-semibold uppercase tracking-[0.18em] text-stone-900">Assessment focus</h3>
-            <div className="mt-3"><BulletList items={study.sampleAssessment.focus} /></div>
-          </div>
-        </Card>
-      </div>
-    </StudyLayout>
-  );
-}
-
-function ContactPage() {
-  return (
-    <section className="mx-auto max-w-5xl px-5 py-10 md:px-8 md:py-16">
+function ContactPage(){
+  const[name,setName]=useState("");
+  const[email,setEmail]=useState("");
+  const[msg,setMsg]=useState("");
+  const[sent,setSent]=useState(false);
+  const send=()=>{
+    if(!name||!msg)return alert("Please fill in your name and message.");
+    const sub=encodeURIComponent(`Portfolio enquiry from ${name}`);
+    const body=encodeURIComponent(`Hi Ololade,\n\n${msg}\n\nFrom: ${name}\nEmail: ${email}`);
+    window.location.href=`mailto:ololadetoluwalase@gmail.com?subject=${sub}&body=${body}`;
+    setSent(true);
+  };
+  const inp={width:"100%",padding:".8rem 1rem",borderRadius:10,border:"1px solid rgba(255,255,255,.25)",background:"rgba(255,255,255,.12)",color:S.white,fontFamily:S.sans,fontSize:".9rem",outline:"none",marginBottom:".75rem"};
+  return(
+    <section style={{maxWidth:900,margin:"0 auto",padding:"4rem 2rem"}}>
       <SectionTag>Contact</SectionTag>
-      <h1 className="mt-5 text-4xl font-semibold tracking-tight md:text-5xl">Let’s work together</h1>
-      <p className="mt-5 max-w-3xl text-base leading-8 text-stone-700">
-        I’m open to remote roles, contract work, and curriculum design projects.
-      </p>
-
-      <div className="mt-10 grid gap-6 md:grid-cols-2">
-        <div className="rounded-[2rem] border border-stone-200 bg-white p-7 shadow-sm">
-          <h2 className="text-2xl font-semibold tracking-tight">Get in touch</h2>
-          <div className="mt-6 space-y-4 text-sm text-stone-800">
-            <a 
-  href="mailto:ololadetoluwalase@gmail.com" 
-  className="flex items-center gap-3 rounded-2xl bg-stone-50 p-4 hover:bg-stone-100 transition"
->
-  <Mail className="h-5 w-5" />
-  <span>Send me an email</span>
-</a>
-            <a href="https://www.linkedin.com/in/ololade-abiodun-191623276/" target="_blank" rel="noreferrer" className="flex items-center gap-3 rounded-2xl bg-stone-50 p-4">
-              <span className="flex h-5 w-5 items-center justify-center text-stone-800">
-                <svg viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5" aria-hidden="true">
-                  <path d="M6.94 8.5H3.56V19h3.38V8.5ZM5.25 3A1.96 1.96 0 0 0 3.3 4.96c0 1.08.86 1.96 1.92 1.96h.03a1.96 1.96 0 1 0 0-3.92ZM20.7 12.58c0-3.16-1.69-4.63-3.95-4.63-1.82 0-2.64 1-3.1 1.7V8.5h-3.38c.04.76 0 10.5 0 10.5h3.38v-5.86c0-.31.02-.62.11-.84.25-.62.82-1.26 1.78-1.26 1.26 0 1.76.96 1.76 2.37V19h3.38v-6.42Z" />
-                </svg>
-              </span>
-              <span>LinkedIn Profile</span>
-              <ExternalLink className="ml-auto h-4 w-4" />
+      <h1 style={{fontFamily:S.serif,fontSize:"clamp(2rem,3.5vw,2.8rem)",lineHeight:1.1,color:S.ink,margin:".8rem 0 1rem"}}>Let's work together</h1>
+      <p style={{fontSize:"1rem",color:S.ink2,lineHeight:1.75,maxWidth:520,margin:"0 0 2.5rem"}}>I'm open to remote roles, contract work, and curriculum design projects globally. I usually respond within 48 hours.</p>
+      <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:"1.5rem"}} className="grid-cols-1 md:grid-cols-2">
+        <Card>
+          <h2 style={{fontFamily:S.serif,fontSize:"1.3rem",color:S.ink,margin:"0 0 1.2rem"}}>Get in touch</h2>
+          {[{icon:<Mail size={18}/>,text:"ololadetoluwalase@gmail.com",href:"mailto:ololadetoluwalase@gmail.com",ext:false},
+            {icon:<ExternalLink size={18}/>,text:"LinkedIn Profile",href:"https://www.linkedin.com/in/ololade-abiodun-191623276/",ext:true},
+            {icon:<Download size={18}/>,text:"Download Resume",href:"YOUR_RESUME_URL_HERE",dl:true},
+          ].map(({icon,text,href,ext,dl})=>(
+            <a key={text} href={href} {...(dl?{download:true}:ext?{target:"_blank",rel:"noreferrer"}:{})}
+              style={{display:"flex",alignItems:"center",gap:".75rem",background:"#F8F9FB",borderRadius:10,padding:".9rem 1rem",marginBottom:".6rem",color:S.ink2,textDecoration:"none",fontSize:".88rem"}}>
+              {icon}{text}
             </a>
-          </div>
-        </div>
-
-        <div className="rounded-[2rem] border border-stone-200 bg-[#5b3b8c] p-7 text-white">
-          <h2 className="text-2xl font-semibold tracking-tight">Best fit for</h2>
-          <div className="mt-6 grid gap-3">
-            {[
-              "Instructional design roles",
-              "Curriculum design projects",
-              "Technical learning programs",
-              "AI literacy and responsible AI education",
-              "Facilitator enablement and learning systems work",
-            ].map((item) => (
-              <div key={item} className="rounded-2xl border border-white/10 bg-white/5 p-4 text-sm text-stone-100">
-                {item}
-              </div>
-            ))}
-          </div>
+          ))}
+        </Card>
+        <div style={{background:S.accent,borderRadius:20,padding:"1.75rem"}}>
+          <h2 style={{fontFamily:S.serif,fontSize:"1.3rem",color:S.white,margin:"0 0 1.2rem"}}>Send a message</h2>
+          <input placeholder="Your name" value={name} onChange={e=>setName(e.target.value)} style={inp}/>
+          <input placeholder="Your email" value={email} onChange={e=>setEmail(e.target.value)} style={inp}/>
+          <textarea placeholder="Tell me about the role or project..." value={msg} onChange={e=>setMsg(e.target.value)} style={{...inp,minHeight:110,resize:"vertical",marginBottom:"1rem"}}/>
+          <button onClick={send} style={{width:"100%",padding:".85rem",borderRadius:"999px",background:S.white,color:S.accent,fontWeight:700,fontSize:".9rem",border:"none",cursor:"pointer",fontFamily:S.sans}}>Send message →</button>
+          {sent&&<p style={{marginTop:".8rem",fontSize:".85rem",color:"rgba(255,255,255,.9)",textAlign:"center"}}>✓ Your email client should open with the message ready.</p>}
         </div>
       </div>
     </section>
   );
 }
 
-function Footer() {
-  return (
-    <footer className="mx-auto max-w-7xl px-5 pb-10 pt-8 text-sm text-stone-500 md:px-8">
-      <div className="flex flex-col gap-3 border-t border-stone-200 pt-6 md:flex-row md:items-center md:justify-between">
-        <p>© {new Date().getFullYear()} Ololade Abiodun.</p>
-        <div className="flex items-center gap-4">
-          <a href="#/about">About</a>
-          <a href="#/case-studies">Case Studies</a>
-          <a href="#/contact">Contact</a>
-        </div>
-      </div>
-    </footer>
-  );
-}
-
-export default function App() {
-  const hash = useHashRoute();
-
-  const page = useMemo(() => {
-    if (hash === "#/" || hash === "#") return <HomePage />;
-    if (hash === "#/about") return <AboutPage />;
-    if (hash === "#/case-studies") return <CaseStudiesPage />;
-    if (hash === "#/contact") return <ContactPage />;
-
-    const match = hash.match(/^#\/case-studies\/([a-z0-9-]+)/);
-    if (match) {
-      const study = caseStudies.find((item) => item.slug === match[1]);
-      if (!study) return <CaseStudiesPage />;
-      if (study.slug === "ai-literacy") return <AILiteracyPage study={study} />;
-      if (study.slug === "software-development") return <SoftwarePage study={study} />;
-      if (study.slug === "devops-bootcamp") return <DevOpsPage study={study} />;
+export default function App(){
+  const hash=useHashRoute();
+  const page=useMemo(()=>{
+    if(hash==="#/"||hash==="#")return <HomePage/>;
+    if(hash==="#/about")return <AboutPage/>;
+    if(hash==="#/case-studies")return <CaseStudiesPage/>;
+    if(hash==="#/contact")return <ContactPage/>;
+    const match=hash.match(/^#\/case-studies\/([a-z0-9-]+)/);
+    if(match){
+      const study=caseStudies.find(s=>s.slug===match[1]);
+      if(!study)return <CaseStudiesPage/>;
+      return <CaseStudyDetailPage study={study}/>;
     }
-
-    return <HomePage />;
-  }, [hash]);
-
-  return (
-    <Shell>
-      {page}
-      <Footer />
-    </Shell>
-  );
+    return <HomePage/>;
+  },[hash]);
+  return <Shell>{page}</Shell>;
 }
