@@ -279,7 +279,7 @@ function AboutPage(){
           </AccentCard>
           <Card>
             <h3 style={{fontFamily:S.serif,fontSize:"1.2rem",color:S.ink,margin:"0 0 1rem"}}>Education & certifications</h3>
-            {["PGD Computer Science · Lead City University (2025)","Diploma in Backend Engineering · AltSchool Africa","AWS Solutions Architect – Associate (2023)"].map(t=>(
+            {["Computer Science · Lead City University","Diploma in Backend Engineering · AltSchool Africa","Anthropic- AI Fluency", "AWS Skill Builder - Fundamentals of Prompts Engineering"].map(t=>(
               <div key={t} style={{background:"#F8F9FB",borderRadius:10,padding:".7rem 1rem",fontSize:".85rem",color:S.ink2,marginBottom:".5rem"}}>{t}</div>
             ))}
           </Card>
