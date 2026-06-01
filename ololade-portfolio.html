@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ololade Abiodun — Instructional Designer</title>
+<meta name="description" content="Instructional Designer and Curriculum Developer with 4+ years building tech education programs that have reached 5,000+ learners. Available for global opportunities.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--ink:#0D0D0D;--ink-2:#3A3A3A;--ink-3:#777;--paper:#FAFAF7;--accent:#1B3A6B;--accent-light:#E8EFF8;--accent-mid:#4A72B0;--terra:#B85C38;--terra-dark:#7A2E0E;--terra-light:#FDF0EB;--terra-border:#E8B89A;--border:#E0DED6;--serif:'DM Serif Display',Georgia,serif;--sans:'DM Sans',system-ui,sans-serif;--radius:12px;--radius-lg:20px}
+html{scroll-behavior:smooth}
+body{font-family:var(--sans);background:var(--paper);color:var(--ink);line-height:1.6;font-size:16px}
+nav{position:sticky;top:0;z-index:100;background:rgba(250,250,247,0.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);padding:0 2rem}
+.nav-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+.nav-logo{font-family:var(--serif);font-size:1.1rem;color:var(--accent);text-decoration:none}
+.nav-links{display:flex;gap:2rem;list-style:none}
+.nav-links a{font-size:.875rem;font-weight:500;color:var(--ink-2);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--accent)}
+.nav-cta{font-size:.8rem;font-weight:600;color:#fff;background:var(--accent);padding:.45rem 1.1rem;border-radius:999px;text-decoration:none}
+.hero{max-width:1100px;margin:0 auto;padding:7rem 2rem 5rem;display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center}
+.hero-tag{display:inline-flex;align-items:center;gap:.5rem;background:var(--terra-light);color:var(--terra);font-size:.78rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:.35rem .9rem;border-radius:999px;margin-bottom:1.5rem;border:1px solid var(--terra-border)}
+.hero h1{font-family:var(--serif);font-size:clamp(2.6rem,4vw,3.8rem);line-height:1.08;color:var(--ink);letter-spacing:-.02em;margin-bottom:1.2rem}
+.hero h1 em{color:var(--accent);font-style:italic}
+.hero-sub{font-size:1.05rem;color:var(--ink-2);line-height:1.7;max-width:480px;margin-bottom:2.2rem}
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap}
+.btn-primary{font-size:.9rem;font-weight:600;color:#fff;background:var(--accent);padding:.7rem 1.6rem;border-radius:999px;text-decoration:none;transition:all .2s;border:none;cursor:pointer;display:inline-block}
+.btn-primary:hover{background:var(--accent-mid);transform:translateY(-1px)}
+.btn-outline{font-size:.9rem;font-weight:500;color:var(--accent);background:transparent;padding:.7rem 1.6rem;border-radius:999px;text-decoration:none;border:1.5px solid var(--accent);display:inline-block}
+.btn-outline:hover{background:var(--accent-light)}
+.hero-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:2rem;box-shadow:0 8px 40px rgba(27,58,107,.08)}
+.stat-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem}
+.stat-box{background:var(--accent-light);border-radius:var(--radius);padding:1.2rem;text-align:center}
+.stat-box.terra{background:var(--terra-light)}
+.stat-num{font-family:var(--serif);font-size:2rem;color:var(--accent);display:block;line-height:1}
+.stat-box.terra .stat-num{color:var(--terra)}
+.stat-label{font-size:.75rem;color:var(--ink-3);font-weight:500;text-transform:uppercase;letter-spacing:.06em;margin-top:.3rem;display:block}
+.skill-pills{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem}
+.pill{font-size:.72rem;font-weight:500;padding:.25rem .75rem;border-radius:999px;background:var(--paper);border:1px solid var(--border);color:var(--ink-2)}
+.section{max-width:1100px;margin:0 auto;padding:5rem 2rem}
+.section-label{font-size:.75rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--terra);margin-bottom:.8rem}
+.section-title{font-family:var(--serif);font-size:clamp(2rem,3vw,2.8rem);color:var(--ink);letter-spacing:-.02em;margin-bottom:1rem}
+.section-sub{font-size:1rem;color:var(--ink-2);max-width:560px;line-height:1.7;margin-bottom:3rem}
+.work-grid{display:grid;gap:1.5rem}
+.case-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;display:grid;grid-template-columns:1fr 2fr;cursor:pointer;transition:all .25s;position:relative}
+.case-card:hover{box-shadow:0 12px 48px rgba(27,58,107,.1);transform:translateY(-2px)}
+.case-thumb{padding:2.5rem 2rem;display:flex;flex-direction:column;justify-content:space-between;min-height:220px}
+.case-thumb.navy{background:var(--accent)}
+.case-thumb.terra{background:var(--terra-dark)}
+.case-thumb.slate{background:#2D2D2D}
+.case-thumb.forest{background:#1C3D1A}
+.thumb-icon{width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:1.5rem;margin-bottom:1rem}
+.thumb-tag{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7)}
+.case-body{padding:2rem 2.5rem}
+.case-program{font-size:.75rem;font-weight:600;color:var(--terra);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.5rem}
+.case-title{font-family:var(--serif);font-size:1.5rem;color:var(--ink);margin-bottom:.7rem;line-height:1.2}
+.case-desc{font-size:.9rem;color:var(--ink-2);line-height:1.65;margin-bottom:1.2rem}
+.case-meta{display:flex;gap:1rem;flex-wrap:wrap}
+.meta-tag{font-size:.75rem;color:var(--ink-3);background:var(--paper);border:1px solid var(--border);padding:.25rem .7rem;border-radius:999px}
+.case-arrow{position:absolute;top:2rem;right:2rem;width:36px;height:36px;border-radius:50%;border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--ink-3);font-size:.9rem;transition:all .2s}
+.case-card:hover .case-arrow{background:var(--accent);border-color:var(--accent);color:#fff}
+/* eLearning samples section */
+.elearning-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem}
+.el-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius-lg);padding:1.75rem;transition:all .25s}
+.el-card:hover{box-shadow:0 8px 32px rgba(27,58,107,.08);transform:translateY(-2px)}
+.el-badge{display:inline-flex;align-items:center;gap:.4rem;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;padding:.25rem .75rem;border-radius:999px;margin-bottom:1rem}
+.el-badge.live{background:#ECFDF3;color:#027A48;border:1px solid #A9EFC5}
+.el-badge.progress{background:var(--terra-light);color:var(--terra);border:1px solid var(--terra-border)}
+.el-title{font-family:var(--serif);font-size:1.2rem;color:var(--ink);margin-bottom:.5rem;line-height:1.2}
+.el-desc{font-size:.875rem;color:var(--ink-2);line-height:1.65;margin-bottom:1.1rem}
+.el-tags{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:1.1rem}
+.el-link{display:inline-flex;align-items:center;gap:.4rem;font-size:.85rem;font-weight:600;color:var(--accent);text-decoration:none;border:1.5px solid var(--accent);padding:.45rem 1rem;border-radius:999px;transition:all .2s}
+.el-link:hover{background:var(--accent-light)}
+.el-link.disabled{color:var(--ink-3);border-color:var(--border);cursor:default}
+.el-link.disabled:hover{background:transparent}
+/* Modal */
+.modal-backdrop{display:none;position:fixed;inset:0;background:rgba(13,13,13,.6);z-index:1000;overflow-y:auto;padding:2rem 1rem}
+.modal-backdrop.open{display:block}
+.modal{background:#fff;max-width:860px;margin:0 auto;border-radius:24px;overflow:hidden}
+.modal-hero{padding:3.5rem;color:#fff;position:relative}
+.modal-hero.navy{background:var(--accent)}
+.modal-hero.terra{background:var(--terra-dark)}
+.modal-hero.slate{background:#2D2D2D}
+.modal-hero.forest{background:#1C3D1A}
+.modal-close{position:absolute;top:1.5rem;right:1.5rem;background:rgba(255,255,255,.18);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;font-family:var(--sans)}
+.modal-tag{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:.8rem}
+.modal-title{font-family:var(--serif);font-size:2.2rem;line-height:1.1;margin-bottom:.8rem}
+.modal-sub{font-size:1rem;color:rgba(255,255,255,.8);line-height:1.6;max-width:600px;margin-bottom:2rem}
+.modal-stats{display:flex;gap:2rem;flex-wrap:wrap}
+.ms-num{font-family:var(--serif);font-size:1.8rem;color:#fff;display:block}
+.ms-label{font-size:.72rem;color:rgba(255,255,255,.65);text-transform:uppercase;letter-spacing:.07em}
+.modal-body{padding:3rem 3.5rem}
+.cs-section{margin-bottom:2.5rem}
+.cs-section h3{font-family:var(--serif);font-size:1.3rem;color:var(--accent);border-bottom:2px solid var(--accent-light);padding-bottom:.4rem;margin-bottom:.8rem}
+.cs-section p{font-size:.92rem;color:var(--ink-2);line-height:1.75;margin-bottom:.8rem}
+.cs-section ul{padding-left:1.2rem;margin-top:.5rem}
+.cs-section li{font-size:.92rem;color:var(--ink-2);line-height:1.7;margin-bottom:.4rem}
+.process-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1rem;margin-top:1rem}
+.ps{background:var(--accent-light);border-radius:var(--radius);padding:1rem;text-align:center}
+.ps-num{font-family:var(--serif);font-size:1.4rem;color:var(--accent);display:block}
+.ps-label{font-size:.78rem;color:var(--ink-2);font-weight:500;margin-top:.2rem}
+.result-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-top:1rem}
+.rg{background:var(--terra-light);border:1px solid var(--terra-border);border-radius:var(--radius);padding:1rem 1.2rem}
+.rg-num{font-family:var(--serif);font-size:1.6rem;color:var(--terra);display:block}
+.rg-label{font-size:.8rem;color:var(--ink-2)}
+.dlv-list{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.8rem}
+.dlv{background:var(--paper);border:1px solid var(--border);border-radius:6px;padding:.35rem .85rem;font-size:.8rem;color:var(--ink-2);font-weight:500}
+/* About */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.about-text p{font-size:1rem;color:var(--ink-2);line-height:1.8;margin-bottom:1.1rem}
+.about-facts{display:flex;flex-direction:column;gap:1rem}
+.fact{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:1.2rem 1.5rem;display:flex;gap:1rem;align-items:flex-start}
+.fact-icon{width:36px;height:36px;border-radius:8px;background:var(--accent-light);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem}
+.fact-title{font-weight:600;font-size:.875rem;color:var(--ink);margin-bottom:.2rem}
+.fact-sub{font-size:.8rem;color:var(--ink-3);line-height:1.5}
+/* Contact */
+.contact-wrap{background:var(--accent);border-radius:24px;padding:4rem;text-align:center;color:#fff}
+.contact-wrap h2{font-family:var(--serif);font-size:2.5rem;margin-bottom:.8rem}
+.contact-wrap p{font-size:1rem;color:rgba(255,255,255,.8);margin-bottom:2rem;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7}
+.contact-form{max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:.8rem}
+.contact-form input,.contact-form textarea{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);border-radius:var(--radius);padding:.85rem 1.1rem;color:#fff;font-family:var(--sans);font-size:.9rem;width:100%;outline:none}
+.contact-form input::placeholder,.contact-form textarea::placeholder{color:rgba(255,255,255,.5)}
+.contact-form textarea{min-height:120px;resize:vertical}
+.contact-form button{background:#fff;color:var(--accent);font-weight:700;font-size:.9rem;border:none;padding:.85rem;border-radius:999px;cursor:pointer;font-family:var(--sans)}
+.contact-or{font-size:.85rem;color:rgba(255,255,255,.6);margin:.5rem 0}
+.contact-email{color:#fff;font-weight:600;text-decoration:none;font-size:.95rem;border-bottom:1px solid rgba(255,255,255,.4)}
+footer{border-top:1px solid var(--border);padding:2rem;text-align:center;font-size:.8rem;color:var(--ink-3)}
+.divider{border:none;border-top:1px solid var(--border);margin:0}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.hero>*{animation:fadeUp .6s ease both}
+.hero>*:nth-child(2){animation-delay:.1s}
+@media(max-width:768px){.hero{grid-template-columns:1fr;gap:2rem;padding:4rem 1.5rem 3rem}.hero-visual{display:none}.about-grid{grid-template-columns:1fr}.case-card{grid-template-columns:1fr}.case-thumb{min-height:120px}.modal-body{padding:2rem 1.5rem}.modal-hero{padding:2.5rem 1.5rem}.result-grid{grid-template-columns:1fr}.contact-wrap{padding:2.5rem 1.5rem}nav{padding:0 1rem}.nav-links{gap:1rem}.section{padding:3rem 1.5rem}.elearning-grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">Ololade Abiodun</a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#elearning">eLearning</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="https://docs.google.com/document/d/1C1byOPLWgRxbRFM5JkTdIqaVvLkNxKh6/edit?usp=sharing&ouid=109567966233933734008&rtpof=true&sd=true" class="nav-cta" download>Download CV</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section>
+  <div class="hero">
+    <div>
+      <div class="hero-tag">✦ Available for global opportunities</div>
+      <h1>Learning design<br>grounded in<br><em>real practice.</em></h1>
+      <p class="hero-sub">Instructional Designer and Curriculum Developer with 4+ years building tech education programs that have reached thousands of learners — combining strong pedagogical foundations with a technical background, and using AI as a tool, not a shortcut.</p>
+      <div class="hero-actions">
+        <a href="#work" class="btn-primary">View my work</a>
+        <a href="#contact" class="btn-outline">Get in touch</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div class="stat-row">
+          <div class="stat-box"><span class="stat-num">4+</span><span class="stat-label">Years designing</span></div>
+          <div class="stat-box terra"><span class="stat-num">83%</span><span class="stat-label">Program impact rate</span></div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-box" style="background:var(--paper);border:1px solid var(--border)"><span class="stat-num" style="font-size:1.4rem">5,000+</span><span class="stat-label">Learners reached</span></div>
+          <div class="stat-box" style="background:var(--paper);border:1px solid var(--border)"><span class="stat-num" style="font-size:1.4rem">2</span><span class="stat-label">Published courses</span></div>
+        </div>
+        <div class="skill-pills">
+          <span class="pill">ADDIE</span>
+          <span class="pill">Articulate Rise 360</span>
+          <span class="pill">Moodle LMS</span>
+          <span class="pill">Curriculum Design</span>
+          <span class="pill">M&amp;E Frameworks</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CASE STUDIES -->
+<section id="work">
+  <div class="section">
+    <p class="section-label">Selected work</p>
+    <h2 class="section-title">Case Studies</h2>
+    <p class="section-sub">End-to-end instructional design projects — from needs analysis and curriculum architecture to facilitator enablement, delivery, and impact measurement.</p>
+    <div class="work-grid">
+
+      <div class="case-card" onclick="openModal('cs1')">
+        <div class="case-thumb navy">
+          <div class="thumb-icon">🌐</div>
+          <div class="thumb-tag">AI Literacy · Digital Skills · 4-Day Program</div>
+        </div>
+        <div class="case-body">
+          <p class="case-program">Women Techsters Launchpad</p>
+          <h3 class="case-title">AI Literacy & Digital Skills Curriculum</h3>
+          <p class="case-desc">Designed a 4-day facilitator-led orientation program for 5,000+ beginner learners — covering AI, product management, software development, data analysis, and cybersecurity.</p>
+          <div class="case-meta"><span class="meta-tag">Facilitator Guide</span><span class="meta-tag">ADDIE</span><span class="meta-tag">Bloom's Taxonomy</span><span class="meta-tag">5,000+ learners</span></div>
+        </div>
+        <div class="case-arrow">→</div>
+      </div>
+
+      <div class="case-card" onclick="openModal('cs2')">
+        <div class="case-thumb terra">
+          <div class="thumb-icon">📊</div>
+          <div class="thumb-tag">M&amp;E · Career Design · Impact Reporting</div>
+        </div>
+        <div class="case-body">
+          <p class="case-program">Women Techsters Bootcamp</p>
+          <h3 class="case-title">Career Pathway Quiz & Program Impact Framework</h3>
+          <p class="case-desc">Built a learner-facing career discovery quiz and a full M&E system — contributing to an 83% success rate and the programme's first quantitative impact report.</p>
+          <div class="case-meta"><span class="meta-tag">Survey Design</span><span class="meta-tag">Impact Measurement</span><span class="meta-tag">Kirkpatrick</span><span class="meta-tag">83% impact rate</span></div>
+        </div>
+        <div class="case-arrow">→</div>
+      </div>
+
+      <div class="case-card" onclick="openModal('cs3')">
+        <div class="case-thumb slate">
+          <div class="thumb-icon">☁️</div>
+          <div class="thumb-tag">Cloud · Web Dev · Instructor-led</div>
+        </div>
+        <div class="case-body">
+          <p class="case-program">Technical Curriculum Design</p>
+          <h3 class="case-title">Cloud & Web Development Curriculum</h3>
+          <p class="case-desc">Designed and delivered beginner-to-intermediate curricula for AWS cloud fundamentals and frontend web development — hands-on labs, project-based learning, full LMS setup.</p>
+          <div class="case-meta"><span class="meta-tag">AWS Curriculum</span><span class="meta-tag">Project-based Learning</span><span class="meta-tag">LMS Design</span><span class="meta-tag">SCORM</span></div>
+        </div>
+        <div class="case-arrow">→</div>
+      </div>
+
+      <div class="case-card" onclick="openModal('cs4')">
+        <div class="case-thumb forest">
+          <div class="thumb-icon">🏛️</div>
+          <div class="thumb-tag">Curriculum Design · Government Sector · Facilitator Enablement</div>
+        </div>
+        <div class="case-body">
+          <p class="case-program">Digitalise Nigeria — Government Sector</p>
+          <h3 class="case-title">Civil Servant AI & Digital Literacy Programme</h3>
+          <p class="case-desc">Designed a 2-day facilitator-led programme for non-technical civil servants navigating digital transformation — covering digital workplace navigation, safety, and responsible AI use in public sector contexts.</p>
+          <div class="case-meta"><span class="meta-tag">Gov't Sector</span><span class="meta-tag">Facilitator Guide</span><span class="meta-tag">AI Literacy</span><span class="meta-tag">Worldwide confirmed</span></div>
+        </div>
+        <div class="case-arrow">→</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- eLEARNING SAMPLES -->
+<section id="elearning">
+  <div class="section">
+    <p class="section-label">Published eLearning</p>
+    <h2 class="section-title">Live Courses</h2>
+    <p class="section-sub">Courses designed, built, and published end-to-end — from instructional design and content development through to SCORM publishing and LMS deployment.</p>
+    <div class="elearning-grid">
+
+      <div class="el-card">
+        <div class="el-badge live">✓ Live on Moodle LMS</div>
+        <h3 class="el-title">Designing for the Adult Learner</h3>
+        <p class="el-desc">A SCORM-compliant eLearning course covering the principles of andragogy, adult learning theory, and practical instructional design fundamentals — built in Articulate Rise 360 and deployed on a live Moodle LMS instance.</p>
+        <div class="el-tags">
+          <span class="pill">Articulate Rise 360</span>
+          <span class="pill">SCORM</span>
+          <span class="pill">Moodle LMS</span>
+          <span class="pill">Andragogy</span>
+          <span class="pill">Knowledge checks</span>
+        </div>
+        <a href="https://learn4greatness.moodlecloud.com" target="_blank" class="el-link">View live course →</a>
+      </div>
+
+      <div class="el-card">
+        <div class="el-badge live">▶ Preview available</div>
+        <h3 class="el-title">AI in the Workplace: Using It Ethically and Productively</h3>
+        <p class="el-desc">A 2-module scenario-based eLearning course for general office staff — following three characters (Amara, Kofi, and Sara) through the ethical risks and productive possibilities of AI in the workplace. Built in Articulate Rise 360 with AI voiceover and interactive knowledge checks.</p>
+        <div class="el-tags">
+          <span class="pill">Articulate Rise 360</span>
+          <span class="pill">Scenario-based</span>
+          <span class="pill">AI voiceover</span>
+          <span class="pill">AI Ethics</span>
+          <span class="pill">2 modules</span>
+        </div>
+        <a href="https://share.articulate.com/OgFsvjPOfBwLhijn8bYrt" target="_blank" class="el-link">Preview course →</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="section">
+    <p class="section-label">About me</p>
+    <h2 class="section-title">The designer behind the work</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>I'm an Instructional Designer based in Lagos, Nigeria, with a background that sits at the intersection of education and technology. Before moving into learning design full-time, I trained as a backend engineer — which means I don't just design tech curricula, I understand what I'm teaching.</p>
+        <p>I design learning programs for large-scale tech education initiatives — building everything from multi-day facilitator guides and career pathway tools to LMS systems and assessment frameworks from scratch.</p>
+        <p>My design philosophy is simple: learners remember what they experience, not what they're told. Every decision I make — from learning objective framing to activity sequencing — is grounded in that principle.</p>
+        <p>I use AI as a practical tool in my design process, the same way I'd use any other — deliberately, critically, and never as a substitute for sound instructional thinking.</p>
+        <p>I'm actively seeking global instructional design roles, particularly in EdTech, NGOs, or international development, where I can bring evidence-based design to programs that scale.</p>
+      </div>
+      <div class="about-facts">
+        <div class="fact"><div class="fact-icon">🎓</div><div><div class="fact-title">Education</div><div class="fact-sub">PGD Computer Science · Lead City University (2025)<br>Diploma in Backend Engineering · AltSchool Africa</div></div></div>
+        <div class="fact"><div class="fact-icon">🏅</div><div><div class="fact-title">Certifications</div><div class="fact-sub">AI Fluency · Anthropic<br>Fundamentals of Prompt Engineering · AWS Skill Builder<br>Essentials of Educating Adults · Alison<br>Instructional Objectives in 21st Century Education · Alison</div></div></div>
+        <div class="fact"><div class="fact-icon">🛠</div><div><div class="fact-title">Tools & Platforms</div><div class="fact-sub">Articulate Rise 360 · Moodle · Google Classroom · Canva · Microsoft Office · Zapier · Node.js</div></div></div>
+        <div class="fact"><div class="fact-icon">🌍</div><div><div class="fact-title">Open to</div><div class="fact-sub">Remote & international roles · EdTech · NGOs · Corporate L&D · International development</div></div></div>
+        <a href="https://docs.google.com/document/d/1C1byOPLWgRxbRFM5JkTdIqaVvLkNxKh6/edit?usp=sharing&ouid=109567966233933734008&rtpof=true&sd=true" class="btn-primary" download style="text-align:center">⬇ Download Resume</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section">
+    <div class="contact-wrap">
+      <p class="section-label" style="color:rgba(255,255,255,.6)">Let's connect</p>
+      <h2>Have a role or project in mind?</h2>
+      <p>I'd love to hear about it. Send me a message or reach me directly — I usually respond within 48 hours.</p>
+      <div class="contact-form">
+        <input type="text" placeholder="Your name" id="cf-name">
+        <input type="email" placeholder="Your email" id="cf-email">
+        <textarea placeholder="Tell me about the role or project..." id="cf-msg"></textarea>
+        <button onclick="sendMsg()">Send message →</button>
+        <div class="contact-or">or email directly</div>
+        <a href="mailto:ololadetoluwalase@gmail.com" class="contact-email">ololadetoluwalase@gmail.com</a>
+      </div>
+      <div id="cf-thanks" style="display:none;margin-top:1.5rem;font-size:1rem;color:rgba(255,255,255,.9);background:rgba(255,255,255,.12);border-radius:12px;padding:1rem">✓ Your email client should open with the message ready.</div>
+    </div>
+  </div>
+</section>
+
+<footer><p>© 2025 Ololade Abiodun · Instructional Designer · Lagos, Nigeria</p></footer>
+
+<div class="modal-backdrop" id="modal-backdrop" onclick="closeModalOutside(event)">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<script>
+const cs={
+  cs1:{color:'navy',tag:'AI Literacy · Digital Skills · Women Techsters Launchpad',title:'AI Literacy & Digital Skills Curriculum',sub:'A 4-day facilitator-led orientation program designed to bring thousands of beginner learners into the world of technology for the first time.',stats:[{num:'5,000+',label:'Learners reached'},{num:'4 days',label:'Program duration'},{num:'5 tracks',label:'Tech career paths'},{num:'83%',label:'Program impact rate'}],sections:[
+    {title:'The Challenge',content:'<p>A large-scale women-in-tech initiative needed a cohesive orientation curriculum for participants with no prior exposure to digital tools or AI. The existing content was fragmented, inconsistently delivered across facilitators, and lacked a clear learning arc that could hold up across multiple cohorts.</p>'},
+    {title:'Design Process',content:'<div class="process-steps"><div class="ps"><span class="ps-num">01</span><div class="ps-label">Needs Analysis</div></div><div class="ps"><span class="ps-num">02</span><div class="ps-label">Learning Objectives</div></div><div class="ps"><span class="ps-num">03</span><div class="ps-label">Content Architecture</div></div><div class="ps"><span class="ps-num">04</span><div class="ps-label">Facilitator Guide</div></div><div class="ps"><span class="ps-num">05</span><div class="ps-label">Assessment Design</div></div><div class="ps"><span class="ps-num">06</span><div class="ps-label">Iteration & QA</div></div></div><p style="margin-top:1.2rem">Applied an ADDIE-informed approach, mapping content to Bloom\'s Taxonomy to ensure each session moved learners from Remembering → Understanding → Applying within a single day.</p>'},
+    {title:'Key Deliverables',content:'<div class="dlv-list"><span class="dlv">4-Day Facilitator Guide (scripted)</span><span class="dlv">PowerPoint with speaker notes</span><span class="dlv">In-session activities & icebreakers</span><span class="dlv">Trivia quizzes & reflection prompts</span><span class="dlv">Daily learner challenges</span><span class="dlv">Career reflection frameworks</span></div>'},
+    {title:'Impact & Outcomes',content:'<div class="result-grid"><div class="rg"><span class="rg-num">5,000+</span><span class="rg-label">Women reached across multiple cohorts</span></div><div class="rg"><span class="rg-num">83%</span><span class="rg-label">Measured program impact success rate</span></div><div class="rg"><span class="rg-num">4 days</span><span class="rg-label">From zero digital exposure to applied AI use</span></div><div class="rg"><span class="rg-num">5 tracks</span><span class="rg-label">Tech career paths introduced to learners</span></div></div>'}
+  ]},
+  cs2:{color:'terra',tag:'Monitoring & Evaluation · Career Design · Women Techsters Bootcamp',title:'Career Pathway Quiz & Program Impact Framework',sub:'A dual project combining learner-facing career design with rigorous program measurement — direction and evidence for both participants and the organisation.',stats:[{num:'83%',label:'Program impact rate'},{num:'2',label:'Survey instruments'},{num:'5+',label:'Career tracks mapped'},{num:'Live',label:'Quiz deployed'}],sections:[
+    {title:'The Challenge',content:'<p>A scaling tech education programme lacked both a structured way for learners to identify the right career path, and a rigorous mechanism to measure whether the programme was producing real change.</p>'},
+    {title:'Design Process',content:'<div class="process-steps"><div class="ps"><span class="ps-num">01</span><div class="ps-label">Stakeholder Alignment</div></div><div class="ps"><span class="ps-num">02</span><div class="ps-label">Career Track Mapping</div></div><div class="ps"><span class="ps-num">03</span><div class="ps-label">Quiz Logic Design</div></div><div class="ps"><span class="ps-num">04</span><div class="ps-label">Survey Instruments</div></div><div class="ps"><span class="ps-num">05</span><div class="ps-label">Data Collection</div></div><div class="ps"><span class="ps-num">06</span><div class="ps-label">Impact Analysis</div></div></div>'},
+    {title:'Key Deliverables',content:'<div class="dlv-list"><span class="dlv">Career quiz platform (live)</span><span class="dlv">Career track competency map</span><span class="dlv">Baseline survey instrument</span><span class="dlv">End-line survey instrument</span><span class="dlv">Impact measurement framework</span><span class="dlv">Programme impact report</span></div>'},
+    {title:'Impact & Outcomes',content:'<div class="result-grid"><div class="rg"><span class="rg-num">83%</span><span class="rg-label">Measured program impact success rate</span></div><div class="rg"><span class="rg-num">Live</span><span class="rg-label">Career quiz in active use at programme onboarding</span></div><div class="rg"><span class="rg-num">2</span><span class="rg-label">Validated survey instruments deployed at scale</span></div><div class="rg"><span class="rg-num">First</span><span class="rg-label">Quantitative impact report produced for stakeholders</span></div></div>'}
+  ]},
+  cs3:{color:'slate',tag:'Cloud Computing · Web Development · Instructor-led Training',title:'Cloud & Web Development Curriculum Design',sub:'Two technical curricula built from scratch and delivered live — AWS cloud fundamentals and frontend web development — making dense technical content accessible without losing rigour.',stats:[{num:'2',label:'Full curricula built'},{num:'AWS',label:'Certification-aligned'},{num:'HTML/CSS/JS',label:'Web dev curriculum'},{num:'SCORM',label:'LMS deployed'}],sections:[
+    {title:'The Challenge',content:'<p>Two organisations needed structured technical curricula for subjects learners find intimidating — make technically dense content accessible to beginners without oversimplifying it, and design for applied skill rather than content recall.</p>'},
+    {title:'Design Process',content:'<div class="process-steps"><div class="ps"><span class="ps-num">01</span><div class="ps-label">Learner Analysis</div></div><div class="ps"><span class="ps-num">02</span><div class="ps-label">Content Mapping</div></div><div class="ps"><span class="ps-num">03</span><div class="ps-label">Lab & Project Design</div></div><div class="ps"><span class="ps-num">04</span><div class="ps-label">LMS Configuration</div></div><div class="ps"><span class="ps-num">05</span><div class="ps-label">Live Delivery</div></div><div class="ps"><span class="ps-num">06</span><div class="ps-label">Cohort Iteration</div></div></div>'},
+    {title:'Key Deliverables',content:'<div class="dlv-list"><span class="dlv">AWS curriculum (foundational to SAA)</span><span class="dlv">HTML, CSS & JavaScript curriculum</span><span class="dlv">Hands-on labs & coding projects</span><span class="dlv">Google Classroom LMS setup</span><span class="dlv">Quizzes & formative assessments</span><span class="dlv">Live virtual class delivery</span></div>'},
+    {title:'Impact & Outcomes',content:'<div class="result-grid"><div class="rg"><span class="rg-num">2</span><span class="rg-label">Full technical curricula designed and delivered</span></div><div class="rg"><span class="rg-num">AWS</span><span class="rg-label">Aligned to Solutions Architect Associate path</span></div><div class="rg"><span class="rg-num">Live</span><span class="rg-label">Virtual classes with real-time personalised feedback</span></div><div class="rg"><span class="rg-num">Deployed</span><span class="rg-label">Learners published working webpages as portfolio pieces</span></div></div>'}
+  ]},
+  cs4:{color:'forest',tag:'Curriculum Design · Facilitator Enablement · Government Sector',title:'Civil Servant AI & Digital Literacy Programme',sub:'A 2-day programme built for a learner nobody usually designs for — the experienced civil servant who is deeply competent in their role but has never had structured support to engage confidently with digital tools.',stats:[{num:'2 days',label:'Program duration'},{num:'6+',label:'Activities per day'},{num:'3',label:'Evaluation touchpoints'},{num:"Gov't",label:'Sector context'}],sections:[
+    {title:'The Challenge',content:'<p>The civil service is undergoing rapid digital transformation, but formal digital skills support for non-technical officers has not kept pace. Many civil servants navigate government platforms and are now expected to engage with AI tools — without ever receiving training for any of it.</p>'},
+    {title:'Design Process',content:'<div class="process-steps"><div class="ps"><span class="ps-num">01</span><div class="ps-label">Learner & Context Analysis</div></div><div class="ps"><span class="ps-num">02</span><div class="ps-label">Program Architecture</div></div><div class="ps"><span class="ps-num">03</span><div class="ps-label">Facilitator Guide</div></div><div class="ps"><span class="ps-num">04</span><div class="ps-label">Activity Design</div></div><div class="ps"><span class="ps-num">05</span><div class="ps-label">Evaluation Framework</div></div><div class="ps"><span class="ps-num">06</span><div class="ps-label">Adaptation Notes</div></div></div><p style="margin-top:1.2rem">ADDIE-informed structure with confidence-before-complexity sequencing: digital foundations (Day 1) before AI literacy (Day 2). Active learning throughout — no segment runs longer than 15 minutes without learner interaction.</p>'},
+    {title:'Key Deliverables',content:'<div class="dlv-list"><span class="dlv">2-day facilitator guide (scripted)</span><span class="dlv">Spot the Phish activity cards</span><span class="dlv">AI Myths & Reality card sort</span><span class="dlv">Platform navigation task</span><span class="dlv">SIFT verification framework</span><span class="dlv">3-touchpoint evaluation framework</span><span class="dlv">Learner action plan cards</span><span class="dlv">Programme adaptation guide</span></div>'},
+    {title:'Impact & Outcomes',content:'<div class="result-grid"><div class="rg"><span class="rg-num">2 days</span><span class="rg-label">Full digital & AI literacy arc for non-technical learners</span></div><div class="rg"><span class="rg-num">6+</span><span class="rg-label">Embedded formative assessments per day</span></div><div class="rg"><span class="rg-num">3</span><span class="rg-label">Evaluation touchpoints: immediate, 30-day, manager observation</span></div><div class="rg"><span class="rg-num">4</span><span class="rg-label">Delivery format adaptations documented for scale</span></div></div>'}
+  ]}
+};
+
+function openModal(id){
+  const c=cs[id];
+  const stats=c.stats.map(s=>`<div><span class="ms-num">${s.num}</span><span class="ms-label">${s.label}</span></div>`).join('');
+  const sections=c.sections.map(s=>`<div class="cs-section"><h3>${s.title}</h3>${s.content}</div>`).join('');
+  document.getElementById('modal-content').innerHTML=`<div class="modal-hero ${c.color}"><button class="modal-close" onclick="closeModal()">✕</button><p class="modal-tag">${c.tag}</p><h2 class="modal-title">${c.title}</h2><p class="modal-sub">${c.sub}</p><div class="modal-stats">${stats}</div></div><div class="modal-body">${sections}</div>`;
+  document.getElementById('modal-backdrop').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeModal(){document.getElementById('modal-backdrop').classList.remove('open');document.body.style.overflow='';}
+function closeModalOutside(e){if(e.target===document.getElementById('modal-backdrop'))closeModal();}
+function sendMsg(){
+  const name=document.getElementById('cf-name').value.trim();
+  const email=document.getElementById('cf-email').value.trim();
+  const msg=document.getElementById('cf-msg').value.trim();
+  if(!name||!msg){alert('Please fill in your name and message.');return;}
+  const sub=encodeURIComponent(`Portfolio enquiry from ${name}`);
+  const body=encodeURIComponent(`Hi Ololade,\n\n${msg}\n\nFrom: ${name}\nEmail: ${email}`);
+  window.location.href=`mailto:ololadetoluwalase@gmail.com?subject=${sub}&body=${body}`;
+  document.getElementById('cf-thanks').style.display='block';
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+</script>
+</body>
+</html>
